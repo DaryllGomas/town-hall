@@ -1,0 +1,41 @@
+name: Propose a solution
+description: Suggest a fix for one of the open problems (no git needed).
+title: "[Solution] "
+labels: [solution]
+body:
+  - type: dropdown
+    id: problem
+    attributes:
+      label: Which problem?
+      options: [housing-affordability, grocery-prices, gas-prices, government-fraud, financial-literacy]
+    validations: { required: true }
+  - type: dropdown
+    id: type
+    attributes:
+      label: Does this already exist somewhere?
+      options: ["existing: it exists (sources required)", "idea: it's new"]
+    validations: { required: true }
+  - type: textarea
+    id: summary
+    attributes:
+      label: The solution
+      description: What is it, how does it work, who does it help and what does it cost?
+    validations: { required: true }
+  - type: textarea
+    id: sources
+    attributes:
+      label: Sources
+      description: https:// links for any facts.
+  - type: dropdown
+    id: ai
+    attributes:
+      label: Written with
+      options: [human, ai-assisted, ai-agent]
+    validations: { required: true }
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Rules
+      options:
+        - label: No private people, no blame and no unsourced accusations (MODERATION.md)
+          required: true

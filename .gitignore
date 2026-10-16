@@ -1,0 +1,5 @@
+.env
+*.log
+__pycache__/
+# raw captures contain real handles: never commit
+data/raw/

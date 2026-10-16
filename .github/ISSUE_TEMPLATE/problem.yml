@@ -1,0 +1,24 @@
+name: New problem
+description: Something people are upset about that isn't listed yet.
+title: "[Problem] "
+labels: [problem]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: Describe it plainly. Problems, not people to blame.
+    validations: { required: true }
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Where people are saying it
+      description: Quotes and where they came from (a chat, a thread, a survey). Don't include names or handles.
+    validations: { required: true }
+  - type: checkboxes
+    id: rules
+    attributes:
+      label: Rules
+      options:
+        - label: No private people, no blame and no unsourced accusations (MODERATION.md)
+          required: true

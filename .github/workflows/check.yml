@@ -1,0 +1,47 @@
+name: check
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: check-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check out the change
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          path: change
+          fetch-depth: 0
+          persist-credentials: false
+
+      # The checker always comes from main, so a pull request can't weaken its own check.
+      - name: Check out the trusted checker from main
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: main
+          path: trusted
+          sparse-checkout: scripts
+          persist-credentials: false
+
+      - name: Validate
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          AUTHOR: ${{ github.event.pull_request.user.login }}
+        run: |
+          if [ "$EVENT" = pull_request ]; then
+            python3 -I trusted/scripts/check_submission.py --repo change --diff "$BASE_SHA" --author "$AUTHOR"
+          else
+            python3 -I trusted/scripts/check_submission.py --repo change --all
+          fi

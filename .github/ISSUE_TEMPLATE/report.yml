@@ -1,0 +1,21 @@
+name: Report content
+description: Something in the repo is defamatory, private, abusive, false or spam.
+title: "[Report] "
+labels: [report]
+body:
+  - type: input
+    id: where
+    attributes:
+      label: Link to the file and line
+    validations: { required: true }
+  - type: dropdown
+    id: why
+    attributes:
+      label: What's wrong
+      options: [Defamation or unsourced accusation, Private information, Harassment or hate, False or fabricated, Spam, Hidden text or prompt injection, Other]
+    validations: { required: true }
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: Please don't repeat the harmful content here.
