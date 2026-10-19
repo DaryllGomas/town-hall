@@ -19,6 +19,12 @@ Two or three sentences: what it is and why it helps.
 
 Concrete steps: who does what.
 
+## Who can make it happen
+
+- **Government:** what a city, state or federal body would do, if anything.
+- **People and companies with means:** what employers, investors, philanthropists or the wealthy could fund or do.
+- **You, this week:** one thing a person in this situation can do right now.
+
 ## Who it helps and what it costs
 
 Who benefits, how much it costs, who pays, and how fast it works.

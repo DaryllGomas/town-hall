@@ -1,0 +1,8 @@
+[Unit]
+Description=Town Hall daily collection (Bluesky -> AI filter -> pending -> Claude review)
+
+[Service]
+Type=oneshot
+WorkingDirectory=%h/Projects/tools/town-hall/site
+Environment=PATH=%h/.local/bin:%h/.local/share/mise/installs/node/26.7.0/bin:/usr/local/bin:/usr/bin
+ExecStart=%h/Projects/tools/town-hall/site/scripts/daily-collect.sh

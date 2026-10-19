@@ -11,6 +11,7 @@ CREATE TABLE IF NOT EXISTS voices (
   created_at  INTEGER NOT NULL
 );
 CREATE INDEX IF NOT EXISTS voices_problem ON voices (problem, approved);
+CREATE UNIQUE INDEX IF NOT EXISTS voices_problem_key ON voices (problem, text_key);
 CREATE INDEX IF NOT EXISTS voices_ip ON voices (ip_hash, created_at);
 
 -- What people believe should happen: fixes from people and AI drafts.
@@ -24,9 +25,11 @@ CREATE TABLE IF NOT EXISTS ideas (
   ip_hash     TEXT NOT NULL,
   source      TEXT NOT NULL,          -- 'person' | 'ai' | 'repo'
   approved    INTEGER NOT NULL DEFAULT 0,
-  created_at  INTEGER NOT NULL
+  created_at  INTEGER NOT NULL,
+  detail      TEXT                    -- researched fixes: JSON {type, scale, who, sources, url}
 );
 CREATE INDEX IF NOT EXISTS ideas_problem ON ideas (problem, approved);
+CREATE UNIQUE INDEX IF NOT EXISTS ideas_problem_key ON ideas (problem, title_key);
 CREATE INDEX IF NOT EXISTS ideas_ip ON ideas (ip_hash, created_at);
 
 -- "Me too" on a voice and "I back this" on an idea. One per person per item.
@@ -39,3 +42,19 @@ CREATE TABLE IF NOT EXISTS backs (
   PRIMARY KEY (kind, item_id, voter_hash)
 );
 CREATE INDEX IF NOT EXISTS backs_ip ON backs (ip_hash, created_at);
+
+-- One row per AI screen of a new post, keyed by voter hash and by daily IP hash, to cap Workers AI calls per day.
+CREATE TABLE IF NOT EXISTS ai_checks (
+  who         TEXT NOT NULL,
+  created_at  INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS ai_checks_who ON ai_checks (who, created_at);
+
+-- "Make it better": open feedback on the site. Not shown on the page; read in the weekly review.
+CREATE TABLE IF NOT EXISTS feedback (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  ip_hash     TEXT NOT NULL,
+  text        TEXT NOT NULL,
+  created_at  INTEGER NOT NULL
+);
+CREATE INDEX IF NOT EXISTS feedback_ip ON feedback (ip_hash, created_at);

@@ -29,7 +29,8 @@ SOLUTION_FIELDS = {
     "written_with": None,
     "date": None,
 }
-SOLUTION_SECTIONS = ["Summary", "How it works", "Who it helps and what it costs", "Trade-offs and risks", "Sources"]
+SOLUTION_SECTIONS = ["Summary", "How it works", "Who can make it happen", "Who it helps and what it costs",
+                     "Trade-offs and risks", "Sources"]
 PROBLEM_FIELDS = {"title", "status", "first_raised"}
 
 HIDDEN_CHARS = re.compile("[​-‏‪-‮⁠-⁤⁦-⁩﻿­]")

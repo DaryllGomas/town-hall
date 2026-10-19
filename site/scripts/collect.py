@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Gather public posts about what people are struggling with, and send them to the site's AI filter.
 
-  collect.py bluesky [--days 3] [--per-query 50]   search Bluesky (no account needed) -> data/raw/
-  collect.py ingest FILE.jsonl [--live]            send a collected file through /api/admin/ingest
+  collect.py bluesky [--days 3] [--per-query 50] [--out FILE]   search Bluesky (no account needed) -> data/raw/
+  collect.py ingest FILE.jsonl [--live] [--pending] send a collected file through /api/admin/ingest
+                                                   (--pending: kept posts wait for review instead of showing)
 
 X is collected through a logged-in browser with collect-x.js. Raw files keep the post links and stay
 in data/raw/ (git-ignored). Only anonymized text ever reaches the site.
@@ -35,7 +36,7 @@ def get(url):
         return json.load(r)
 
 
-def bluesky(days=3, per_query=50):
+def bluesky(days=3, per_query=50, out=None):
     since = (datetime.datetime.now(datetime.timezone.utc) - datetime.timedelta(days=days)).strftime("%Y-%m-%dT%H:%M:%SZ")
     seen, rows = set(), []
     for q in queries():
@@ -62,12 +63,12 @@ def bluesky(days=3, per_query=50):
                 break
             time.sleep(0.5)
         print(f"  {got:3d}  {q}", file=sys.stderr)
-    return save(rows, "bluesky")
+    return save(rows, "bluesky", out)
 
 
-def save(rows, source):
+def save(rows, source, out=None):
     RAW.mkdir(parents=True, exist_ok=True)
-    out = RAW / f"collect-{datetime.date.today()}-{source}.jsonl"
+    out = pathlib.Path(out) if out else RAW / f"collect-{datetime.date.today()}-{source}.jsonl"
     with out.open("a") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
@@ -89,7 +90,7 @@ def token(live):
     return t
 
 
-def ingest(path, live=False):
+def ingest(path, live=False, pending=False):
     base = LIVE if live else os.environ.get("TOWN_HALL_LOCAL", LOCAL)
     if not base:
         sys.exit("Set TOWN_HALL_URL to the live site.")
@@ -97,7 +98,7 @@ def ingest(path, live=False):
     total = {}
     for i in range(0, len(rows), 60):
         posts = [{"source": r["source"], "text": r["text"]} for r in rows[i:i + 60]]
-        req = urllib.request.Request(f"{base}/api/admin/ingest", data=json.dumps({"posts": posts}).encode(),
+        req = urllib.request.Request(f"{base}/api/admin/ingest", data=json.dumps({"posts": posts, "pending": pending}).encode(),
                                      headers={"Content-Type": "application/json", "Authorization": f"Bearer {token(live)}"})
         with urllib.request.urlopen(req, timeout=300) as r:
             stats = json.load(r)
@@ -111,8 +112,8 @@ if __name__ == "__main__":
     a = sys.argv[1:]
     opt = lambda name, default: int(a[a.index(name) + 1]) if name in a else default
     if a[:1] == ["bluesky"]:
-        bluesky(opt("--days", 3), opt("--per-query", 50))
+        bluesky(opt("--days", 3), opt("--per-query", 50), a[a.index("--out") + 1] if "--out" in a else None)
     elif a[:1] == ["ingest"] and len(a) >= 2:
-        ingest(a[1], "--live" in a)
+        ingest(a[1], "--live" in a, "--pending" in a)
     else:
         sys.exit(__doc__)

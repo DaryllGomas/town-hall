@@ -7,14 +7,20 @@
   <meta name="description" content="What's hurting, and what people believe should happen. Add your voice, back the fixes you believe in, and let the numbers speak.">
   <meta property="og:title" content="Town Hall">
   <meta property="og:description" content="What's hurting, and what people believe should happen. Add your voice. Back the fixes. Let the numbers speak.">
-  <meta name="twitter:card" content="summary">
+  <meta property="og:url" content="https://townhall.bigpicsolutions.com/">
+  <meta property="og:image" content="https://townhall.bigpicsolutions.com/img/og.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://townhall.bigpicsolutions.com/img/og.png">
+  <link rel="canonical" href="https://townhall.bigpicsolutions.com/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
-  <script src="app.js?v=3" defer></script>
+  <script src="app.js?v=7" defer></script>
 </head>
 <body>
   <header class="top">
@@ -44,6 +50,29 @@
     <nav class="jump" id="jump" aria-label="Problems"></nav>
     <div id="board" class="board"><p class="loading">Loading what people are saying…</p></div>
 
+    <section class="why" aria-labelledby="why-h">
+      <h2 id="why-h">Why this exists</h2>
+      <p>The people who are hurting are the ones who stock the shelves, drive the trucks, care for the sick and
+        keep the lights on. Many of them helped build other people's fortunes. Town Hall puts what they're living
+        through in one place, in their own words, next to fixes that are researched and sourced.</p>
+      <p>Every researched fix says who can make it happen: <strong>government</strong>, <strong>people and companies
+        with means</strong> (this is their country too), and <strong>you, this week</strong>. Back the ones you believe in.
+        The counts are the message.</p>
+    </section>
+
+    <section class="feedback" aria-labelledby="fb-h">
+      <h2 id="fb-h">Make it better</h2>
+      <p>What's missing? A problem we haven't listed, a fix that works where you live, something on this page that
+        doesn't work for you. Not shown publicly; read every week.</p>
+      <form id="feedback-form" class="compose">
+        <label>Your note
+          <textarea name="text" rows="3" maxlength="1500" required placeholder="What should we add or change?"></textarea>
+        </label>
+        <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="row"><button class="btn" type="submit">Send</button></div>
+      </form>
+    </section>
+
     <section class="more">
       <div class="more-card">
         <h2>Point your AI at it</h2>
@@ -62,7 +91,9 @@
 
   <footer class="foot wrap">
     <p>An independent, open-source citizens' project. Posts are screened by AI for spam, private details and personal
-      attacks, never for politics. Fixes marked <b>AI draft</b> were written by AI from what people said here.</p>
+      attacks, never for politics. Voices from X and Bluesky are public posts with names and handles removed.
+      <b>Researched fixes</b> are written with sources and reviewed in the open on GitHub; fixes marked <b>AI draft</b>
+      were written by AI from what people said here. AI reviews everything weekly; changes go through public review.</p>
     <p><a href="https://github.com/DaryllGomas/town-hall/blob/main/MODERATION.md">Rules</a> ·
       <a href="https://github.com/DaryllGomas/town-hall">Source</a> ·
       <a href="https://github.com/DaryllGomas/town-hall/issues/new/choose">Report something</a></p>
@@ -108,7 +139,7 @@
   </template>
 
   <div id="check" class="check" hidden>
-    <div class="check-box" role="dialog" aria-modal="true" aria-labelledby="check-h">
+    <div class="check-box" role="dialog" aria-modal="true" aria-labelledby="check-h" tabindex="-1">
       <p id="check-h" class="check-h">Quick check that you're a person</p>
       <div id="turnstile"></div>
       <p class="check-note">This keeps bots from stuffing the count.</p>

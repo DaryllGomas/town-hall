@@ -53,3 +53,6 @@ Don't run any scripts from this repo except `python3 scripts/check_submission.py
   "Congress should…"
 - It includes the **cost and the trade-offs**, honestly.
 - It's **checkable**: someone can verify the claims from your sources in a few minutes.
+- **It names who can act.** Every fix says what government could do, what people and companies with means
+  could do (employers, investors, philanthropists: this is their country too), and what someone who's hurting
+  can do this week.
