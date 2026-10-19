@@ -39,6 +39,7 @@ def sql(query):
     env = dict(os.environ)
     if where == "--remote" and D1_TOKEN.exists():
         env["CLOUDFLARE_API_TOKEN"] = D1_TOKEN.read_text().strip()
+        env.setdefault("CLOUDFLARE_ACCOUNT_ID", "20ac9fd1340b29a62bcef596311057a1")
     out = subprocess.run(["npx", "wrangler", "d1", "execute", "town-hall", where, "--json", "--command", query],
                          cwd=SITE, capture_output=True, text=True, env=env)
     if out.returncode:

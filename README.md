@@ -93,7 +93,7 @@ It runs on Cloudflare's free plan (Workers, D1, Workers AI, Turnstile), like its
 needs a Turnstile human check. Posts get an AI screen that stops spam, private details and personal attacks,
 never politics. There are per-network daily caps, duplicate posts count as backing, and no raw IPs are stored.
 
-Deploy: `python3 site/scripts/sync-problems.py`, then `cd site && npx wrangler d1 execute town-hall --remote --file seed.sql && npx wrangler deploy` (Cloudflare account on thor). Researched fixes reach the site through that sync. Collect and load new voices:
+Deploy: `site/scripts/deploy.sh` (syncs `problems/`, seeds D1, deploys, with a scoped Cloudflare token). Researched fixes reach the site through that sync. Full operations: [docs/RUNBOOK.md](docs/RUNBOOK.md). Collect and load new voices:
 `python3 scripts/collect.py bluesky`, skim the file in `data/raw/`, then `python3 scripts/collect.py ingest <file> --live`
 (the admin token lives in `~/.config/town-hall/admin-token`, never in the repo).
 
