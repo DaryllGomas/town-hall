@@ -3,3 +3,8 @@
 __pycache__/
 # raw captures contain real handles: never commit
 data/raw/
+
+# site
+site/.dev.vars
+site/.wrangler/
+site/node_modules/

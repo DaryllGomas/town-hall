@@ -1,0 +1,29 @@
+name = "town-hall"
+main = "src/worker.js"
+compatibility_date = "2026-09-01"
+
+[assets]
+directory = "public"
+binding = "ASSETS"
+run_worker_first = ["/api/*"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "town-hall"
+database_id = "LOCAL-ONLY-REPLACE-ON-CREATE"
+
+# Workers AI: the post screen and the fix drafts (free daily allowance).
+[ai]
+binding = "AI"
+
+# Draft new AI fixes every 6 hours.
+[triggers]
+crons = ["17 */6 * * *"]
+
+[vars]
+# Public Turnstile site key. Local dev overrides it with the always-pass test key in .dev.vars.
+TURNSTILE_SITE_KEY = "REPLACE-WITH-SITE-KEY"
+
+# Secrets (wrangler secret put ...), never committed:
+#   TURNSTILE_SECRET  Turnstile secret key
+#   HASH_SALT         long random string

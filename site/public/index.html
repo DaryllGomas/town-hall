@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Town Hall</title>
+  <meta name="description" content="What's hurting, and what people believe should happen. Add your voice, back the fixes you believe in, and let the numbers speak.">
+  <meta property="og:title" content="Town Hall">
+  <meta property="og:description" content="What's hurting, and what people believe should happen. Add your voice. Back the fixes. Let the numbers speak.">
+  <meta name="twitter:card" content="summary">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=2">
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <script src="app.js?v=1" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <div class="brand">
+        <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+          <path class="horn" d="M10 26h10l26-14v40L20 38H10z"/>
+          <path class="handle" d="M18 38l4 14h8l-4-14"/>
+          <path class="waves" d="M52 22c3 3 3 17 0 20M57 16c6 6 6 26 0 32"/>
+        </svg>
+        <span class="wordmark">Town Hall</span>
+      </div>
+      <h1>What's hurting.<br><span>What should happen.</span></h1>
+      <p class="lede">Every day people say what's crushing them in chats and comment sections, and then it scrolls away.
+        Here it stays. Say what you're struggling with, back the fixes you believe in, and let the numbers speak to the
+        people in charge.</p>
+      <p class="rule">No blame, just solutions. Every party, every view, one country.</p>
+      <div class="stats" aria-live="polite">
+        <div><b id="s-voices">–</b><span>things people are struggling with</span></div>
+        <div><b id="s-ideas">–</b><span>fixes proposed</span></div>
+        <div><b id="s-backs">–</b><span>times people said "me too" or "do this"</span></div>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <nav class="jump" id="jump" aria-label="Problems"></nav>
+    <div id="board" class="board"><p class="loading">Loading what people are saying…</p></div>
+
+    <section class="more">
+      <div class="more-card">
+        <h2>Point your AI at it</h2>
+        <p>Got tokens left at the end of the week? Have your AI agent research a problem and write up a fix. Every
+          submission is checked and reviewed in the open on GitHub.</p>
+        <a class="btn ghost" href="https://github.com/DaryllGomas/town-hall">Contribute on GitHub</a>
+      </div>
+      <div class="more-card">
+        <h2>Who should do it?</h2>
+        <p>Town Hall is <em>what</em> needs fixing. Its sister project, The Balanced Ticket, is <em>who</em> should lead:
+          a public vote on an independent, merit-picked team.</p>
+        <a class="btn ghost" href="https://next-american-chapter.next-american-chapter.workers.dev">The Balanced Ticket</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot wrap">
+    <p>An independent, open-source citizens' project. Posts are screened by AI for spam, private details and personal
+      attacks, never for politics. Fixes marked <b>AI draft</b> were written by AI from what people said here.</p>
+    <p><a href="https://github.com/DaryllGomas/town-hall/blob/main/MODERATION.md">Rules</a> ·
+      <a href="https://github.com/DaryllGomas/town-hall">Source</a> ·
+      <a href="https://github.com/DaryllGomas/town-hall/issues/new/choose">Report something</a></p>
+  </footer>
+
+  <template id="tpl-problem">
+    <section class="problem">
+      <header class="p-head">
+        <h2 class="p-title"></h2>
+        <p class="p-count"></p>
+      </header>
+      <div class="p-cols">
+        <div class="col">
+          <h3>What people are saying</h3>
+          <ul class="voices"></ul>
+          <button class="btn small add-voice" type="button">Add your voice</button>
+          <form class="compose voice-form" hidden>
+            <label>What are you struggling with?
+              <textarea name="text" rows="3" maxlength="600" required placeholder="In your own words. No names, please."></textarea>
+            </label>
+            <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="row"><button class="btn" type="submit">Post</button><button class="btn ghost cancel" type="button">Cancel</button></div>
+          </form>
+        </div>
+        <div class="col">
+          <h3>What people believe should happen</h3>
+          <ol class="ideas"></ol>
+          <button class="btn small add-idea" type="button">Suggest a fix</button>
+          <form class="compose idea-form" hidden>
+            <label>Your fix, in a few words
+              <input name="title" maxlength="120" required placeholder="e.g. Let towns approve starter homes faster">
+            </label>
+            <label>How would it work, and who would do it?
+              <textarea name="text" rows="4" maxlength="1200" required></textarea>
+            </label>
+            <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+            <div class="row"><button class="btn" type="submit">Post</button><button class="btn ghost cancel" type="button">Cancel</button></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </template>
+
+  <div id="check" class="check" hidden>
+    <div class="check-box" role="dialog" aria-modal="true" aria-labelledby="check-h">
+      <p id="check-h" class="check-h">Quick check that you're a person</p>
+      <div id="turnstile"></div>
+      <p class="check-note">This keeps bots from stuffing the count.</p>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

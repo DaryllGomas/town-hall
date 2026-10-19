@@ -61,6 +61,32 @@ Prefer to write it yourself? Same steps, or use the [solution form](../../issues
 Written content is licensed under [CC BY 4.0](LICENSE-CONTENT) and code under [MIT](LICENSE).
 By contributing you agree to license your contribution the same way.
 
+## The site
+
+[`site/`](site/) is the public page: people say what they're struggling with, back the fixes they believe in,
+and AI drafts new fixes every 6 hours from what people said. The page itself is the megaphone: anyone can see
+what people are hurting from and what they believe should happen, with the numbers behind it.
+
+| Piece | What |
+|---|---|
+| `site/public/` | The page (`index.html`, `app.js`, `styles.css`) and `problems.json` |
+| `site/src/worker.js` | Cloudflare Worker: `/api/board`, `/api/voice`, `/api/idea`, `/api/back`, the AI post screen and the AI drafting cron |
+| `site/schema.sql` | D1 tables: `voices`, `ideas`, `backs` |
+| `site/scripts/sync-problems.py` | Rebuilds `problems.json` and `seed.sql` from `problems/` |
+| `site/scripts/review.py` | Reviews held posts and exports the board for an AI digest |
+
+It runs on Cloudflare's free plan (Workers, D1, Workers AI, Turnstile), like its sister project. Every write
+needs a Turnstile human check. Posts get an AI screen that stops spam, private details and personal attacks,
+never politics. There are per-network daily caps, duplicate posts count as backing, and no raw IPs are stored.
+
+Run it locally:
+
+```sh
+cd site && cp .dev.vars.example .dev.vars
+npx wrangler d1 execute town-hall --local --file schema.sql && npx wrangler d1 execute town-hall --local --file seed.sql
+npx wrangler dev --test-scheduled   # /__scheduled triggers the AI drafting job
+```
+
 ## Running the checker
 
 There's nothing to deploy. The repo is the product. To check a submission locally:
