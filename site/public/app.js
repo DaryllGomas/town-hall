@@ -6,6 +6,24 @@ let widgetId = null;
 let busy = false;
 const expanded = new Set(); // problems whose full voice list is open
 const VOICES_SHOWN = 6;
+let active = decodeURIComponent(location.hash.slice(1)) || '';
+
+// One simple line icon per issue (24x24, stroked).
+const ICONS = {
+  'jobs-and-layoffs': 'M4 8h16v11H4zM9 8V5h6v3M4 13h16',
+  'housing-affordability': 'M3 11l9-7 9 7M5 10v10h14V10M10 20v-6h4v6',
+  'evictions': 'M3 11l9-7 9 7M5 10v10h8M16 14l5 5M21 14l-5 5',
+  'health-care-costs': 'M12 20s-7-4.5-7-10a4 4 0 017-2.6A4 4 0 0119 10c0 5.5-7 10-7 10zM9 11h6M12 8v6',
+  'medical-debt': 'M5 4h10l4 4v12H5zM9 12h6M12 9v6M8 18h8',
+  'no-financial-cushion': 'M4 7h14a2 2 0 012 2v9H4zM4 7l10-3 2 3M16 13h2',
+  'predatory-finance': 'M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7zM12 8v5M12 16h.01',
+  'grocery-prices': 'M3 4h3l2 11h11l2-8H7M9 20h.01M18 20h.01',
+  'gas-prices': 'M5 20V5a1 1 0 011-1h7a1 1 0 011 1v15M3 20h13M14 9h2l2 2v6a1.5 1.5 0 003 0V8l-3-3M7 8h5',
+  'government-fraud': 'M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18',
+  'financial-literacy': 'M4 5h7a3 3 0 013 3v12a2 2 0 00-2-2H4zM20 5h-5a3 3 0 00-3 3',
+  other: 'M5 12h.01M12 12h.01M19 12h.01',
+};
+const svg = (d) => `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="${d}"/></svg>`;
 
 // What this browser has backed, so buttons show the right state. The server is the real record.
 const backed = loadBacked();
@@ -35,14 +53,38 @@ async function init() {
   await refresh(true);
   setInterval(refresh, 60000);
   wireFeedback();
+  $('#nav-voice').addEventListener('click', (e) => {
+    const box = document.querySelector('.problem:not([hidden]) .voice-form textarea');
+    if (!box) return;
+    e.preventDefault();
+    box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    box.focus({ preventScroll: true });
+  });
+  window.addEventListener('hashchange', () => {
+    const slug = decodeURIComponent(location.hash.slice(1));
+    if (document.getElementById(slug)?.classList.contains('problem')) show(slug);
+  });
+}
+
+// One issue at a time, chosen by its tab (and the URL hash, so links to an issue work).
+function show(slug, focusTab = false) {
+  active = slug;
+  for (const p of document.querySelectorAll('#board .problem')) p.hidden = p.id !== slug;
+  for (const t of document.querySelectorAll('#tabs .tab')) {
+    const on = t.dataset.slug === slug;
+    t.setAttribute('aria-selected', on);
+    t.tabIndex = on ? 0 : -1;
+    if (on && focusTab) t.focus();
+  }
 }
 
 // The board redraws every minute, but never while someone is typing or has a form open,
 // so focus, caret and drafts stay put.
 async function refresh(force = false) {
-  const active = document.activeElement;
-  const typing = active && active.closest && active.closest('#board') && /INPUT|TEXTAREA/.test(active.tagName);
-  if (!force && (typing || document.querySelector('#board .compose:not([hidden])'))) return;
+  const el = document.activeElement;
+  const typing = el && el.closest && el.closest('#board') && /INPUT|TEXTAREA/.test(el.tagName);
+  const drafting = [...document.querySelectorAll('#board .compose input:not(.hp), #board .compose textarea')].some((f) => f.value.trim());
+  if (!force && (typing || drafting || document.querySelector('#board .idea-form:not([hidden])'))) return;
   try {
     const data = await fetch('/api/board').then((r) => r.json());
     render(data);
@@ -65,8 +107,9 @@ function render({ problems, totals }) {
 
   const board = $('#board');
   board.textContent = '';
-  const jump = $('#jump');
-  jump.textContent = '';
+  const tabs = $('#tabs');
+  tabs.textContent = '';
+  if (!problems.some((p) => p.slug === active)) active = problems[0]?.slug || '';
   for (const p of problems) {
     const el = $('#tpl-problem').content.firstElementChild.cloneNode(true);
     el.id = p.slug;
@@ -104,7 +147,11 @@ function render({ problems, totals }) {
 
     const ideas = $('.ideas', el);
     if (!p.ideas.length) ideas.append(li('empty', 'No fixes yet. What should happen?'));
-    for (const i of p.ideas) ideas.append(ideaItem(i, p));
+    p.ideas.forEach((i, n) => {
+      const item = ideaItem(i, p);
+      if (n === 0 && i.n > 0) item.classList.add('top'); // the most-backed fix gets the light
+      ideas.append(item);
+    });
 
     wireForms(el, p.slug);
     for (const f of el.querySelectorAll('.compose')) {
@@ -112,13 +159,36 @@ function render({ problems, totals }) {
       if (open.has(id)) f.hidden = false;
       for (const [k, v] of Object.entries(drafts[id] || {})) if (f.elements[k]) f.elements[k].value = v;
     }
+    el.setAttribute('aria-labelledby', `tab-${p.slug}`);
     board.append(el);
 
-    const a = document.createElement('a');
-    a.href = `#${p.slug}`;
-    a.textContent = p.title;
-    jump.append(a);
+    const t = document.createElement('button');
+    t.type = 'button';
+    t.className = 'tab';
+    t.id = `tab-${p.slug}`;
+    t.dataset.slug = p.slug;
+    t.setAttribute('role', 'tab');
+    t.setAttribute('aria-controls', p.slug);
+    t.innerHTML = svg(ICONS[p.slug] || ICONS.other) + '<span class="t"></span><span class="n"></span>';
+    $('.t', t).textContent = p.title;
+    $('.n', t).textContent = `${fmt(p.voiceCount)} ${p.voiceCount === 1 ? 'voice' : 'voices'}`;
+    t.addEventListener('click', () => {
+      show(p.slug);
+      history.replaceState(null, '', `#${p.slug}`);
+      const top = $('#board').getBoundingClientRect().top + window.scrollY - 170;
+      if (window.scrollY > top) window.scrollTo({ top, behavior: 'smooth' });
+    });
+    // Arrow keys move between tabs (the standard tab pattern).
+    t.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const all = [...tabs.children];
+      const next = all[(all.indexOf(t) + (e.key === 'ArrowRight' ? 1 : all.length - 1)) % all.length];
+      show(next.dataset.slug, true);
+      history.replaceState(null, '', `#${next.dataset.slug}`);
+    });
+    tabs.append(t);
   }
+  show(active);
 }
 
 function voiceItem(v) {
@@ -158,13 +228,27 @@ function ideaItem(i, p) {
     dl.className = 'who';
     for (const [k, label] of [['government', 'Government'], ['means', 'People and companies with means'], ['you', 'You, this week']]) {
       if (!who[k]) continue;
+      const pair = document.createElement('div');
       const dt = document.createElement('dt');
       dt.textContent = label;
       const dd = document.createElement('dd');
       dd.textContent = who[k];
-      dl.append(dt, dd);
+      pair.append(dt, dd);
+      dl.append(pair);
     }
     el.append(dl);
+    // Long "who can act" text shows its first lines; the rest is one tap away.
+    const more = document.createElement('button');
+    more.type = 'button';
+    more.className = 'who-toggle';
+    more.textContent = 'Read all of who can act';
+    more.setAttribute('aria-expanded', 'false');
+    more.addEventListener('click', () => {
+      const open = dl.classList.toggle('open');
+      more.setAttribute('aria-expanded', open);
+      more.textContent = open ? 'Show less' : 'Read all of who can act';
+    });
+    el.append(more);
   }
   const meta = document.createElement('div');
   meta.className = 'meta';
@@ -184,7 +268,7 @@ function ideaItem(i, p) {
   share.rel = 'noopener';
   share.href = shareUrl(i, p);
   share.setAttribute('aria-label', `Share on X: ${i.title}`);
-  share.textContent = 'Megaphone it';
+  share.innerHTML = svg('M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6M18 6a8 8 0 010 12') + 'Megaphone it';
   // Built again at the moment of sharing, so the count matches what's on screen.
   share.addEventListener('click', () => { share.href = shareUrl(i, p); });
   meta.append(share);
@@ -227,13 +311,15 @@ function backButton(kind, item, label, about) {
 function wireForms(el, slug) {
   for (const [btn, sel, url] of [['.add-voice', '.voice-form', '/api/voice'], ['.add-idea', '.idea-form', '/api/idea']]) {
     const form = $(sel, el);
-    $(btn, el).addEventListener('click', () => {
+    const opener = $(btn, el); // the voice bar is always open; the fix form opens from "Suggest a fix"
+    opener?.addEventListener('click', () => {
       form.hidden = false;
       form.querySelector('textarea, input').focus();
     });
-    $('.cancel', form).addEventListener('click', () => {
+    $('.cancel', form)?.addEventListener('click', () => {
       form.hidden = true;
       form.reset();
+      opener?.focus();
     });
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -241,12 +327,12 @@ function wireForms(el, slug) {
       const out = await send(url, { problem: slug, ...f }, $('button[type=submit]', form));
       if (!out) return;
       form.reset();
-      form.hidden = true;
+      if (opener) form.hidden = true;
       if (out.id && out.backed !== false) {
         backed.add(`${url === '/api/voice' ? 'voice' : 'idea'}:${out.id}`); // posting counts as backing it
         saveBacked();
       }
-      $(btn, el).focus();
+      (opener || $('textarea', form)).focus();
       if (out.merged) toast('Someone already said that, so we counted you with them.');
       else if (out.pending) toast("Thanks! It'll show once it's been reviewed.");
       else toast(out.problem !== slug ? 'Posted. It fit better under another problem, so it went there.' : 'Posted. It shows within a minute.');
