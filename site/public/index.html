@@ -3,74 +3,107 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a1020">
   <title>Town Hall</title>
-  <meta name="description" content="What's hurting, and what people believe should happen. Add your voice, back the fixes you believe in, and let the numbers speak.">
+  <meta name="description" content="Real people. Brighter solutions. A louder tomorrow. What people are struggling with, the fixes they believe in, and who can make them happen.">
   <meta property="og:title" content="Town Hall">
-  <meta property="og:description" content="What's hurting, and what people believe should happen. Add your voice. Back the fixes. Let the numbers speak.">
+  <meta property="og:description" content="Real people. Brighter solutions. A louder tomorrow. Add your voice, back the fixes you believe in, and let the numbers speak.">
   <meta property="og:url" content="https://townhall.bigpicsolutions.com/">
-  <meta property="og:image" content="https://townhall.bigpicsolutions.com/img/og.png">
+  <meta property="og:image" content="https://townhall.bigpicsolutions.com/img/og.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://townhall.bigpicsolutions.com/img/og.png">
+  <meta name="twitter:image" content="https://townhall.bigpicsolutions.com/img/og.jpg">
   <link rel="canonical" href="https://townhall.bigpicsolutions.com/">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=4">
+  <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=10">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
-  <script src="app.js?v=7" defer></script>
+  <script src="app.js?v=10" defer></script>
 </head>
 <body>
-  <header class="top">
-    <div class="wrap">
-      <div class="brand">
+  <a class="skip" href="#issues">Skip to the issues</a>
+
+  <header class="nav">
+    <div class="wrap nav-row">
+      <a class="brand" href="#top" aria-label="Town Hall, home">
         <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
-          <path class="horn" d="M10 26h10l26-14v40L20 38H10z"/>
-          <path class="handle" d="M18 38l4 14h8l-4-14"/>
-          <path class="waves" d="M52 22c3 3 3 17 0 20M57 16c6 6 6 26 0 32"/>
+          <path class="beam" d="M36 14 62 4v20z"/>
+          <path class="tower" d="M26 20h10l4 36H22z"/>
+          <path class="lamp" d="M25 12h12v8H25z"/>
+          <path class="roof" d="M24 12l7-6 7 6z"/>
+          <path class="stripe" d="M24.6 32h12.8l.5 5H24.1zM23.6 43h14.8l.5 5H23.1z"/>
         </svg>
         <span class="wordmark">Town Hall</span>
-      </div>
-      <h1>What's hurting.<br><span>What should happen.</span></h1>
-      <p class="lede">Every day people say what's crushing them in chats and comment sections, and then it scrolls away.
-        Here it stays. Say what you're struggling with, back the fixes you believe in, and let the numbers speak to the
-        people in charge.</p>
-      <p class="rule">No blame, just solutions. Every party, every view, one country.</p>
-      <div class="stats" aria-live="polite">
-        <div><b id="s-voices">–</b><span>things people are struggling with</span></div>
-        <div><b id="s-ideas">–</b><span>fixes proposed</span></div>
-        <div><b id="s-backs">–</b><span>times people said "me too" or "do this"</span></div>
-      </div>
+      </a>
+      <nav class="links" aria-label="Site">
+        <a href="#issues">Issues</a>
+        <a href="#why">How it works</a>
+        <a href="https://github.com/DaryllGomas/town-hall">Contribute</a>
+      </nav>
+      <a class="btn accent small" href="#issues" id="nav-voice">Add your voice</a>
     </div>
   </header>
 
+  <section class="hero" id="top">
+    <div class="hero-art" aria-hidden="true"></div>
+    <div class="wrap hero-row">
+      <div class="hero-text">
+        <p class="eyebrow">A public town hall · every party, every view, one country</p>
+        <h1>Real people.<br>Brighter solutions.<br><span>A louder tomorrow.</span></h1>
+        <p class="lede">Every day people say what's crushing them, and then it scrolls away. Here it stays. We turn their
+          voices into clear problems, shine a light on researched fixes, and show exactly who can make them happen.</p>
+        <p class="rule">No blame, just solutions.</p>
+        <div class="stats" aria-live="polite">
+          <div><b id="s-voices">–</b><span>things people are struggling with</span></div>
+          <div><b id="s-ideas">–</b><span>fixes proposed</span></div>
+          <div><b id="s-backs">–</b><span>times people said "me too" or "do this"</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="explore" id="issues" aria-label="Explore the issues">
+    <div class="wrap">
+      <p class="section-kicker">Explore the issues</p>
+      <div class="tabs" id="tabs" role="tablist" aria-label="Issues"></div>
+    </div>
+  </section>
+
   <main class="wrap">
-    <nav class="jump" id="jump" aria-label="Problems"></nav>
     <div id="board" class="board"><p class="loading">Loading what people are saying…</p></div>
 
-    <section class="why" aria-labelledby="why-h">
-      <h2 id="why-h">Why this exists</h2>
-      <p>The people who are hurting are the ones who stock the shelves, drive the trucks, care for the sick and
-        keep the lights on. Many of them helped build other people's fortunes. Town Hall puts what they're living
-        through in one place, in their own words, next to fixes that are researched and sourced.</p>
-      <p>Every researched fix says who can make it happen: <strong>government</strong>, <strong>people and companies
-        with means</strong> (this is their country too), and <strong>you, this week</strong>. Back the ones you believe in.
-        The counts are the message.</p>
+    <section class="who-explainer" aria-labelledby="who-h">
+      <h2 id="who-h">Who can make it happen</h2>
+      <p class="sub">Every researched fix names who can act. This is their country too.</p>
+      <div class="who-cards">
+        <div class="who-card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 10l9-6 9 6M5 10v8M9.5 10v8M14.5 10v8M19 10v8M3 20h18"/></svg>
+          <h3>Government</h3>
+          <p>City, state and federal: what a law, a program or an agency could do.</p>
+        </div>
+        <div class="who-card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 21V8l8-5 8 5v13M9 21v-6h6v6M8 11h.01M12 11h.01M16 11h.01"/></svg>
+          <h3>People and companies with means</h3>
+          <p>Employers, investors, philanthropists and the wealthy: what they could fund or build.</p>
+        </div>
+        <div class="who-card">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg>
+          <h3>You, this week</h3>
+          <p>One concrete step someone in this situation can take right now.</p>
+        </div>
+      </div>
     </section>
 
-    <section class="feedback" aria-labelledby="fb-h">
-      <h2 id="fb-h">Make it better</h2>
-      <p>What's missing? A problem we haven't listed, a fix that works where you live, something on this page that
-        doesn't work for you. Not shown publicly; read every week.</p>
-      <form id="feedback-form" class="compose">
-        <label>Your note
-          <textarea name="text" rows="3" maxlength="1500" required placeholder="What should we add or change?"></textarea>
-        </label>
-        <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
-        <div class="row"><button class="btn" type="submit">Send</button></div>
-      </form>
+    <section class="why" id="why" aria-labelledby="why-h">
+      <h2 id="why-h">Why this exists</h2>
+      <p>The people who are hurting are the ones who stock the shelves, drive the trucks, care for the sick and keep the
+        lights on. Many of them helped build other people's fortunes. Town Hall puts what they're living through in one
+        place, in their own words, next to fixes that are researched and sourced.</p>
+      <p>Back the fixes you believe in and share them. The counts are the message, to everyone who can do something
+        about it.</p>
     </section>
 
     <section class="more">
@@ -81,48 +114,57 @@
         <a class="btn ghost" href="https://github.com/DaryllGomas/town-hall">Contribute on GitHub</a>
       </div>
       <div class="more-card">
-        <h2>Who should do it?</h2>
+        <h2>Who should lead?</h2>
         <p>Town Hall is <em>what</em> needs fixing. Its sister project, The Balanced Ticket, is <em>who</em> should lead:
           a public vote on an independent, merit-picked team.</p>
-        <a class="btn ghost" href="https://next-american-chapter.next-american-chapter.workers.dev">The Balanced Ticket</a>
+        <a class="btn ghost" href="https://balancedticket.bigpicsolutions.com">The Balanced Ticket</a>
       </div>
+    </section>
+
+    <section class="feedback" aria-labelledby="fb-h">
+      <h2 id="fb-h">Make it better</h2>
+      <p>What's missing? A problem we haven't listed, a fix that works where you live, something that doesn't work for
+        you. Not shown publicly; read every week.</p>
+      <form id="feedback-form" class="compose">
+        <label>Your note
+          <textarea name="text" rows="3" maxlength="1500" required placeholder="What should we add or change?"></textarea>
+        </label>
+        <div class="hp" aria-hidden="true"><input name="website" tabindex="-1" autocomplete="off"></div>
+        <div class="row"><button class="btn accent" type="submit">Send</button></div>
+      </form>
     </section>
   </main>
 
-  <footer class="foot wrap">
-    <p>An independent, open-source citizens' project. Posts are screened by AI for spam, private details and personal
-      attacks, never for politics. Voices from X and Bluesky are public posts with names and handles removed.
-      <b>Researched fixes</b> are written with sources and reviewed in the open on GitHub; fixes marked <b>AI draft</b>
-      were written by AI from what people said here. AI reviews everything weekly; changes go through public review.</p>
-    <p><a href="https://github.com/DaryllGomas/town-hall/blob/main/MODERATION.md">Rules</a> ·
-      <a href="https://github.com/DaryllGomas/town-hall">Source</a> ·
-      <a href="https://github.com/DaryllGomas/town-hall/issues/new/choose">Report something</a></p>
+  <footer class="foot">
+    <div class="wrap">
+      <p>An independent, open-source citizens' project. Posts are screened by AI for spam, private details and personal
+        attacks, never for politics. Voices from X and Bluesky are public posts with names and handles removed.
+        <b>Researched fixes</b> are written with sources and reviewed in the open on GitHub; fixes marked <b>AI draft</b>
+        were written by AI from what people said here and reviewed before they show.</p>
+      <p><a href="https://github.com/DaryllGomas/town-hall/blob/main/MODERATION.md">Rules</a> ·
+        <a href="https://github.com/DaryllGomas/town-hall/blob/main/docs/RUNBOOK.md">How it runs</a> ·
+        <a href="https://github.com/DaryllGomas/town-hall">Source</a> ·
+        <a href="https://github.com/DaryllGomas/town-hall/issues/new/choose">Report something</a></p>
+    </div>
   </footer>
 
   <template id="tpl-problem">
-    <section class="problem">
+    <section class="problem" role="tabpanel">
       <header class="p-head">
-        <h2 class="p-title"></h2>
-        <p class="p-count"></p>
+        <div>
+          <p class="section-kicker">Issue</p>
+          <h2 class="p-title"></h2>
+          <p class="p-count"></p>
+        </div>
+        <button class="btn ghost small add-idea" type="button">Suggest a fix</button>
       </header>
       <div class="p-cols">
         <div class="col">
-          <h3>What people are saying</h3>
+          <h3><span class="dot"></span>What people are saying</h3>
           <ul class="voices"></ul>
-          <button class="btn small add-voice" type="button">Add your voice</button>
-          <form class="compose voice-form" hidden>
-            <label>What are you struggling with?
-              <textarea name="text" rows="3" maxlength="600" required placeholder="In your own words. No names, please."></textarea>
-            </label>
-            <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <div class="row"><button class="btn" type="submit">Post</button><button class="btn ghost cancel" type="button">Cancel</button></div>
-            <p class="crisis">Hurting right now? In the U.S., call or text <a href="tel:988">988</a> any time.</p>
-          </form>
         </div>
         <div class="col">
-          <h3>What people believe should happen</h3>
-          <ol class="ideas"></ol>
-          <button class="btn small add-idea" type="button">Suggest a fix</button>
+          <h3><span class="dot lit"></span>Solutions people support</h3>
           <form class="compose idea-form" hidden>
             <label>Your fix, in a few words
               <input name="title" maxlength="120" required placeholder="e.g. Let towns approve starter homes faster">
@@ -131,10 +173,21 @@
               <textarea name="text" rows="4" maxlength="1200" required></textarea>
             </label>
             <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-            <div class="row"><button class="btn" type="submit">Post</button><button class="btn ghost cancel" type="button">Cancel</button></div>
+            <div class="row"><button class="btn accent" type="submit">Post</button><button class="btn ghost cancel" type="button">Cancel</button></div>
           </form>
+          <ol class="ideas"></ol>
         </div>
       </div>
+      <form class="compose voice-form share-bar">
+        <div class="share-label">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 11v2a1 1 0 001 1h2l5 4V6L6 10H4a1 1 0 00-1 1zM15 9a4 4 0 010 6M18 6a8 8 0 010 12"/></svg>
+          <div><b>Share your struggle</b><span>Your voice helps others see they're not alone.</span></div>
+        </div>
+        <textarea name="text" rows="1" maxlength="600" required placeholder="What's on your mind? No names, please." aria-label="What are you struggling with?"></textarea>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn accent" type="submit">Post</button>
+        <p class="crisis">Hurting right now? In the U.S., call or text <a href="tel:988">988</a> any time.</p>
+      </form>
     </section>
   </template>
 
