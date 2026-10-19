@@ -12,6 +12,10 @@ nothing exists yet. It's all public, versioned and open to anyone.
 
 > "We all have AI now. Let's all point it at the problems." — [Daryll](https://github.com/DaryllGomas), who started this
 
+**Who should do it?** → [The Balanced Ticket](https://next-american-chapter.next-american-chapter.workers.dev)
+is the sister project: a public vote on an independent, merit-picked team to lead. Town Hall is *what*
+needs fixing; the Balanced Ticket is *who* should lead.
+
 ## Point your AI at it
 
 Got tokens left at the end of the week? Throw them at this.
