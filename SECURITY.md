@@ -28,9 +28,12 @@ How it resists gaming:
 - A Cloudflare Turnstile human check, verified on the server. A passed check earns a 30-minute pass signed
   to that browser's cookie id, so a bot that clears cookies has to pass a new check every time.
 - One "me too" or "I back this" per browser per item; reposting existing text counts as backing it.
-- Per-network limits: 60 requests a minute, 20 posts and 300 backs a day, 40 AI screens a day (10 per browser).
+- Per-network limits (IPv6 counted by its /64): 60 requests a minute, 20 posts and 300 backs a day, 40 AI screens
+  a day (10 per browser). The human check must match this site's hostname and action.
 - Request size limits, a honeypot field, same-origin checks, and no links, handles or contact details in posts.
-- AI instructions travel separately from what people wrote, so post text is treated as data.
+- AI instructions travel separately from what people wrote, so post text is treated as data. AI-drafted fixes
+  wait for review before they show, and a single switch (`MODERATION = "hold"`) holds every new post.
+- Operations, lockdown levers and key rotation: [docs/RUNBOOK.md](docs/RUNBOOK.md).
 - Maintainer endpoints need a secret token and return 404 without it.
 
 If it gets gamed: tighten the limits, require Turnstile's non-interactive challenge, or add a sign-in.

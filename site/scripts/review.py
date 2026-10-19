@@ -4,26 +4,43 @@
   review.py pending [--json]       voices and ideas waiting for review (approved = 0)
   review.py approve voice 12       show it on the page
   review.py reject idea 7          hide it for good
-  review.py apply DECISIONS.json   apply {"approve": [{"kind": "voice", "id": 12}], "reject": [...]} in one go
+  review.py apply DECISIONS.json [--only PENDING.json]
+                                   apply {"approve": [{"kind": "voice", "id": 12}], "reject": [...]} in one go
   review.py export [--md]          everything shown (with backing counts) plus feedback, as JSON or Markdown
 
 Add --local to work on the local dev database instead of the live one.
 """
 import json
+import os
 import pathlib
 import subprocess
 import sys
 
 SITE = pathlib.Path(__file__).resolve().parents[1]
-args = [a for a in sys.argv[1:] if not a.startswith("--")]
-flags = {a for a in sys.argv[1:] if a.startswith("--")}
+argv = sys.argv[1:]
+# --only FILE: apply decisions only to posts listed in that pending file (the daily review's input), so text
+# inside one post can't steer the review to approve something it wasn't shown.
+only = None
+if "--only" in argv:
+    i = argv.index("--only")
+    only = {(x["kind"], int(x["id"])) for x in json.loads(pathlib.Path(argv[i + 1]).read_text())}
+    del argv[i:i + 2]
+args = [a for a in argv if not a.startswith("--")]
+flags = {a for a in argv if a.startswith("--")}
 where = "--local" if "--local" in flags else "--remote"
 KINDS = {"voice": "voices", "idea": "ideas"}
 
 
+# Timers use a Cloudflare API token scoped to D1 only, when it exists, instead of the full wrangler login.
+D1_TOKEN = pathlib.Path.home() / ".config" / "town-hall" / "cf-d1-token"
+
+
 def sql(query):
+    env = dict(os.environ)
+    if where == "--remote" and D1_TOKEN.exists():
+        env["CLOUDFLARE_API_TOKEN"] = D1_TOKEN.read_text().strip()
     out = subprocess.run(["npx", "wrangler", "d1", "execute", "town-hall", where, "--json", "--command", query],
-                         cwd=SITE, capture_output=True, text=True)
+                         cwd=SITE, capture_output=True, text=True, env=env)
     if out.returncode:
         sys.exit(out.stderr or out.stdout)
     return json.loads(out.stdout)[0]["results"]
@@ -36,6 +53,8 @@ def pending():
 
 
 def set_status(items, value):
+    if only is not None:
+        items = [i for i in items if str(i.get("id", "")).isdigit() and (i.get("kind"), int(i["id"])) in only]
     # Approvals can refile a post under a better-fitting problem.
     slugs = {p["slug"] for p in json.loads((SITE / "public" / "problems.json").read_text())["problems"]}
     for i in items:
@@ -56,6 +75,13 @@ def export():
         "ideas": sql(f"SELECT t.id, t.problem, t.title, t.body, t.source, t.created_at, {backers.format(k='idea')} AS backers "
                      "FROM ideas t WHERE approved = 1"),
         "feedback": sql("SELECT text, created_at FROM feedback ORDER BY created_at"),
+        # Stuffing signals: busiest items in the last day, and how much backing came from brand-new browsers.
+        "spikes": sql("SELECT kind, item_id, COUNT(*) AS backs_24h, COUNT(DISTINCT ip_hash) AS networks FROM backs "
+                      "WHERE created_at >= (strftime('%s','now') - 86400) * 1000 GROUP BY kind, item_id "
+                      "ORDER BY backs_24h DESC LIMIT 10"),
+        "new_browsers": sql("SELECT COUNT(*) AS backs_7d, SUM(b.created_at - f.first < 3600000) AS from_new_browsers "
+                            "FROM backs b JOIN (SELECT voter_hash, MIN(created_at) AS first FROM backs GROUP BY voter_hash) f "
+                            "ON f.voter_hash = b.voter_hash WHERE b.created_at >= (strftime('%s','now') - 604800) * 1000"),
     }
 
 
@@ -71,6 +97,11 @@ def markdown(d):
         lines += [f"- [{i['source']}, {i['backers']} backers] **{i['title']}**: {i['body']}" for i in ideas] or ["- none"]
         lines.append("")
     lines += ["## Feedback on the site", ""] + ([f"- {f['text']}" for f in d["feedback"]] or ["- none"])
+    lines += ["", "## Stuffing signals", "", "Busiest items, last 24 hours (backs, distinct networks):"]
+    lines += [f"- {r['kind']} {r['item_id']}: {r['backs_24h']} backs from {r['networks']} networks" for r in d["spikes"]] or ["- none"]
+    nb = (d["new_browsers"] or [{}])[0]
+    lines += ["", f"Last 7 days: {nb.get('backs_7d') or 0} backs, {nb.get('from_new_browsers') or 0} from browsers "
+              "less than an hour old."]
     return "\n".join(lines)
 
 

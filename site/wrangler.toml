@@ -1,8 +1,8 @@
 name = "town-hall"
 main = "src/worker.js"
 compatibility_date = "2026-09-01"
-# Live at townhall.bigpicsolutions.com; keep the workers.dev address on too (a custom domain turns it off otherwise).
-workers_dev = true
+# Live only at townhall.bigpicsolutions.com: one origin, one Turnstile hostname (security review 2026-10-19).
+workers_dev = false
 routes = [{ pattern = "townhall.bigpicsolutions.com", custom_domain = true }]
 
 [assets]
@@ -30,6 +30,8 @@ namespace_id = "1002"
 simple = { limit = 60, period = 60 }
 
 [vars]
+# Lockdown lever: "hold" keeps every new post pending and stops AI drafts. Normal: "open".
+MODERATION = "open"
 # Public Turnstile site key. Local dev overrides it with the always-pass test key in .dev.vars.
 TURNSTILE_SITE_KEY = "0x4AAAAAAFayx1DO1U52jYLh"
 
@@ -37,3 +39,4 @@ TURNSTILE_SITE_KEY = "0x4AAAAAAFayx1DO1U52jYLh"
 #   TURNSTILE_SECRET  Turnstile secret key
 #   HASH_SALT         long random string
 #   ADMIN_TOKEN       long random string for /api/admin/ingest (collectors)
+#   PASS_KEY          long random string; HMAC key for the 30-minute human-check pass
