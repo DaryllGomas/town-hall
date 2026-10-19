@@ -63,9 +63,10 @@ function render({ problems, totals }) {
     const el = $('#tpl-problem').content.firstElementChild.cloneNode(true);
     el.id = p.slug;
     $('.p-title', el).textContent = p.title;
-    $('.p-count', el).textContent = p.people
-      ? `${fmt(p.people)} ${p.people === 1 ? 'person' : 'people'} spoke up or backed something here`
-      : 'Be the first to speak up here';
+    const parts = [];
+    if (p.voiceCount) parts.push(`${fmt(p.voiceCount)} ${p.voiceCount === 1 ? 'voice' : 'voices'}`);
+    if (p.people) parts.push(`${fmt(p.people)} ${p.people === 1 ? 'person' : 'people'} here on the site`);
+    $('.p-count', el).textContent = parts.join(' · ') || 'Be the first to speak up here';
 
     const voices = $('.voices', el);
     if (!p.voices.length) voices.append(li('empty', 'Nothing yet. What are you struggling with?'));
@@ -99,7 +100,8 @@ function voiceItem(v) {
   el.append(q);
   const meta = document.createElement('div');
   meta.className = 'meta';
-  if (v.source === 'chat') meta.append(tag('From a live chat'));
+  const from = { chat: 'From a live chat', x: 'From X', bluesky: 'From Bluesky', reddit: 'From Reddit' }[v.source];
+  if (from) meta.append(tag(from));
   meta.append(backButton('voice', v, 'Me too'));
   el.append(meta);
   return el;

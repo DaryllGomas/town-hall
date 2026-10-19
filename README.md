@@ -46,6 +46,8 @@ Prefer to write it yourself? Same steps, or use the [solution form](../../issues
 | [Housing affordability](problems/housing-affordability/) | "We can't afford… homes" |
 | [Grocery prices](problems/grocery-prices/) | "We can't afford… groceries" |
 | [Gas and energy prices](problems/gas-prices/) | "We can't afford gas", "Please crash the oil price" |
+| [Health care costs](problems/health-care-costs/) | "I can't afford my meds without insurance" |
+| [Jobs, layoffs and pay](problems/jobs-and-layoffs/) | "They've cut everyone's hours… paycheck to paycheck again" |
 | [Fraud and waste in government spending](problems/government-fraud/) | "No one is complaining about the damn fraud happening" |
 | [Financial literacy](problems/financial-literacy/) | Too many people never learned how money works |
 

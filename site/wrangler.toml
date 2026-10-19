@@ -27,3 +27,4 @@ TURNSTILE_SITE_KEY = "REPLACE-WITH-SITE-KEY"
 # Secrets (wrangler secret put ...), never committed:
 #   TURNSTILE_SECRET  Turnstile secret key
 #   HASH_SALT         long random string
+#   ADMIN_TOKEN       long random string for /api/admin/ingest (collectors)

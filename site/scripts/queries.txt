@@ -1,0 +1,19 @@
+# One search per line. Aimed at people describing their own struggles, not news or politics.
+"can't afford" rent
+"can't afford" groceries
+"can't afford" gas
+"cannot afford" "my rent"
+"paycheck to paycheck"
+"can't pay my" bills
+"medical bills"
+"can't afford" insulin
+"can't afford" childcare
+"can't find a job"
+"got laid off"
+"being evicted"
+"electric bill" "can't"
+"grocery prices" struggling
+"housing costs" "can't"
+"student loans" "can't"
+"working two jobs"
+"food bank" "first time"
