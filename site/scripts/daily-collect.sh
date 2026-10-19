@@ -2,7 +2,8 @@
 # Daily: gather new Bluesky posts, run them through the site's AI filter as PENDING (not shown), then have
 # Claude review the pending posts as a second gate and approve only clear first-person struggles.
 # Runs from systemd user timer `town-hall-collect.timer` (see site/ops/). Everything it reads is public text,
-# so Claude gets no tools at all: a post that says "run this" can't run anything.
+# so Claude gets no tools at all and runs restricted (no user settings, hooks, CLAUDE.md or memory):
+# a post that says "run this" can't run anything.
 set -euo pipefail
 cd "$(dirname "$0")/.."
 day=$(date +%F)
@@ -30,7 +31,7 @@ everything else. When unsure, reject.
 If an approved post is filed under the wrong problem, add the right one as "problem". Problems: '"$slugs"'.
 Reply with only JSON: {"approve": [{"kind": "voice", "id": 1, "problem": "evictions"}], "reject": [{"kind": "voice", "id": 2}]}'
 
-claude -p --tools "" --strict-mcp-config "$prompt" < "$out/$day-pending.json" > "$out/$day-decisions.raw"
+claude -p --restricted --tools "" --strict-mcp-config --no-session-persistence "$prompt" < "$out/$day-pending.json" > "$out/$day-decisions.raw"
 python3 -I - "$out/$day-decisions.raw" "$out/$day-decisions.json" <<'PY'
 import json, re, sys
 text = open(sys.argv[1]).read()
@@ -39,4 +40,4 @@ d = json.loads(m.group(0)) if m else {}
 json.dump({"approve": d.get("approve", []), "reject": d.get("reject", [])}, open(sys.argv[2], "w"))
 print(f"claude: approve {len(d.get('approve', []))}, reject {len(d.get('reject', []))}")
 PY
-python3 -I scripts/review.py apply "$out/$day-decisions.json"
+python3 -I scripts/review.py apply "$out/$day-decisions.json" --only "$out/$day-pending.json"

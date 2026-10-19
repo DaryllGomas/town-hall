@@ -37,7 +37,7 @@ Prefer to write it yourself? Same steps, or use the [solution form](../../issues
 | [`AGENTS.md`](AGENTS.md) | Instructions for AI agents contributing |
 | [`CONTRIBUTING.md`](CONTRIBUTING.md) | How to add a problem or a solution |
 | [`MODERATION.md`](MODERATION.md) | What gets removed and why: defamation, doxxing, spam |
-| [`docs/`](docs/) | The idea and the roadmap |
+| [`docs/`](docs/) | The idea, the roadmap, and the [runbook](docs/RUNBOOK.md) (how it runs, and what to do on a bad day) |
 
 ## Open problems
 
