@@ -21,6 +21,36 @@ payday and title loans, overdraft and junk fees, rent-to-own, stacked buy-now-pa
 high-interest credit, aggressive debt collection, betting apps, and get-rich-quick or crypto schemes.
 The founder put it as people "being preyed upon in the markets".
 
+## The issue
+
+When cash runs out before the bills do, the quickest money within reach is often the most expensive:
+payday and title loans, overdraft fees and stacked buy-now-pay-later plans. Payday loans are mostly
+used for rent, utilities and food, and their two-week terms push people to roll them over or borrow
+again, so the average borrower takes eight loans a year and pays about $520 in interest. Overdraft fees
+land again and again on a small group of accounts, while online sports betting and investment fraud
+drain more. Federal protections on overdraft and payday payments are uncertain, so the rules depend
+largely on each state. Adults with the lowest incomes use high-cost loans about twice as often as
+adults overall.
+
+## The solution
+
+**Someone short on cash should be able to get a fair small loan and a bank account that doesn't charge them for being short.**
+
+1. **State legislatures:** pass small-loan rules like Ohio's 2018 law, with an all-in cost cap, at
+   least three months to repay in installments, licensing for online lenders and published loan data.
+   ([evidence](solutions/state-small-loan-reform-ohio-model.md))
+2. **Banks and credit unions:** offer Bank On certified accounts with no overdraft or NSF fees, and
+   cities and states can pay benefits and tax refunds into them by default when people don't name
+   another account. ([evidence](solutions/bank-on-certified-no-overdraft-account.md))
+3. **Credit unions, with employers and philanthropy:** offer payday alternative loans (up to $2,000, at
+   most 28% interest) with fast approval, backed by funded loan-loss reserves and repayment through
+   payroll. ([evidence](solutions/credit-union-payday-alternative-loans.md))
+4. **Banks, credit unions and card issuers:** add a one-tap gambling block with a 48-hour wait to turn
+   it off, and measure whether it reduces overdrafts and losses.
+   ([evidence](solutions/bank-gambling-block-with-cooling-off.md))
+
+*Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request.*
+
 ## In people's words
 
 Public posts, lightly trimmed, no names.

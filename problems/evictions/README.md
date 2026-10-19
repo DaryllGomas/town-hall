@@ -12,6 +12,38 @@ Renters losing their homes: eviction filings, the days before an eviction, landl
 tax-driven rent hikes, and what happens after (records that block future rentals, homelessness, kids
 changing schools).
 
+## The issue
+
+Half of renters spend 30% or more of their income on housing, so a short crisis like a job loss or a
+medical bill can leave a household behind on rent and facing an eviction filing. Landlords' own rising
+costs, such as property taxes and insurance, are often passed on to renters, and a sale can push out
+tenants who always paid. Tenants often face court without a lawyer (in New York City before its law,
+only 1% had one while more than 90% of landlords did), and even a case they win can sit on screening
+reports and block their next rental. An eviction order raises homelessness and hospital visits and
+cuts earnings and credit for years, and it falls hardest on children and on Black renters.
+
+## The solution
+
+**No one should lose their home over a short-term shortfall in rent, or be shut out of the next one by a court record.**
+
+1. **Cities and counties:** require mediation and back-rent help before a landlord can file for
+   nonpayment, backed by a standing fund for small arrears so the program doesn't run dry.
+   ([evidence](solutions/eviction-diversion-with-rent-help.md))
+2. **Cities and states:** guarantee low-income tenants a free lawyer in eviction court, starting with
+   families with children and older renters, and fund it to reach the people who qualify.
+   ([evidence](solutions/right-to-counsel-free-eviction-lawyer.md))
+3. **State legislatures and court systems:** seal eviction records at filing, and automatically seal
+   cases that were dismissed, settled or won by the tenant.
+   ([evidence](solutions/seal-eviction-records-fix-screening.md))
+4. **Landlords and property managers:** offer a payment plan and a referral to rent help before any
+   filing, and stop rejecting applicants for cases that were dismissed or won.
+   ([evidence](solutions/eviction-diversion-with-rent-help.md))
+5. **Local governments, philanthropy and banks:** pilot a stay-put fund that gets first notice when a
+   small rental is sold, and trade property-tax relief for capped rent increases.
+   ([evidence](solutions/stay-put-fund-for-small-rentals.md))
+
+*Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request.*
+
 ## In people's words
 
 > Being evicted on Monday. Do me a favor and ask your gods to send me some divine energy to get through this weekend

@@ -16,6 +16,39 @@ sources:
 
 # Health care costs
 
+## The issue
+
+Job-based insurance covers more than half of people, so losing a job often means losing coverage, and
+keeping the old plan through COBRA can cost the full premium plus a fee. Marketplace premium payments
+rose sharply in 2026 after the extra tax credits ended, Medicaid work requirements for expansion
+adults start in 2027, and federal funding for community health centers expires in December 2026. When
+people can't pay, they skip care and medicine: 28% of adults postponed needed care because of cost,
+and many didn't fill prescriptions or skipped doses. Uninsured adults are hit hardest; 62% of those
+under 65 went without care they needed.
+
+## The solution
+
+**No one should go without care or medicine because a layoff or a price tag put it out of reach.**
+
+1. **Congress and states:** Congress funds community health centers for several years at a time, and
+   states add adult dental care to Medicaid.
+   ([evidence](solutions/community-health-centers-and-dental-schools.md))
+2. **States:** send Marketplace and Medicaid information with every unemployment claim and layoff
+   notice, and let people apply for coverage on the same site.
+   ([evidence](solutions/after-a-layoff-get-covered-in-60-days.md))
+3. **Employers:** when laying people off, pay three months of coverage (COBRA, or the same amount
+   toward a Marketplace plan) and book each worker with a free enrollment helper before the last day;
+   philanthropy can fund a pooled bridge for small businesses.
+   ([evidence](solutions/layoff-health-bridge.md))
+4. **Drug makers, Congress and states:** drug makers extend $35 insulin programs past their end dates,
+   and lawmakers extend the $35 monthly insulin cap to private insurance and uninsured people.
+   ([evidence](solutions/cash-drug-prices-and-insulin-programs.md))
+5. **Hospitals:** send uninsured emergency patients to a nearby health center with a follow-up already
+   booked, and check the cash price of every discharge prescription.
+   ([evidence](solutions/community-health-centers-and-dental-schools.md))
+
+*Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request.*
+
 ## In people's words
 
 > I've spent years doing everything I could possibly do and I still can't afford my own medical bills or my own home.
