@@ -1,6 +1,17 @@
 {
   "problems": [
     {
+      "slug": "evictions",
+      "title": "Evictions",
+      "questions": [
+        "What can someone do in the last 72 hours before a lockout, and which local emergency funds can pay",
+        "Which right-to-counsel and diversion programs have the best measured results per dollar, and why?",
+        "How can renters in small buildings stay put when an owner sells or property taxes jump?",
+        "What keeps evicted children in the same school, and which districts do it well?",
+        "Which states seal eviction records automatically, and how well are screening companies following"
+      ]
+    },
+    {
       "slug": "financial-literacy",
       "title": "Financial literacy",
       "questions": [
@@ -57,12 +68,45 @@
     },
     {
       "slug": "jobs-and-layoffs",
-      "title": "Jobs, layoffs and pay",
+      "title": "Jobs, layoffs and low pay",
       "questions": [
         "What actually helps people who were laid off get back to comparable work faster?",
         "How do people living paycheck to paycheck build even a small cushion?",
         "Which retraining options have a track record of leading to real jobs, especially as AI changes work?",
         "What can workers do when their hours get cut?"
+      ]
+    },
+    {
+      "slug": "medical-debt",
+      "title": "Medical debt",
+      "questions": [
+        "Which hospitals and health systems screen every patient for financial assistance automatically, and",
+        "How much medical debt now sits on medical credit cards and loans, where state and hospital protections",
+        "Do the pending lawsuits against state credit-reporting bans (Colorado, Minnesota) change what states",
+        "What helps people with debt from ambulances, physician groups and dental offices, which most hospital",
+        "What would actually improve health and stability for people with medical debt, given that relief"
+      ]
+    },
+    {
+      "slug": "no-financial-cushion",
+      "title": "Living paycheck to paycheck",
+      "questions": [
+        "Which employer emergency savings designs (seed money, matches, auto-enrollment) reach low-wage and",
+        "How much does a one-time cash grant at the moment of crisis change where people are a year later,",
+        "What happens to people's finances after hours are cut, and what helps them bridge it?",
+        "How can someone laid off keep their 401(k) intact while still paying rent: which options, in what",
+        "What would it cost to give every worker a first $1,000 cushion, and who would fund it?"
+      ]
+    },
+    {
+      "slug": "predatory-finance",
+      "title": "Predatory lending, fees and scams",
+      "questions": [
+        "Which states have measurably cut payday and title loan costs without leaving people with no credit at",
+        "How much do rent-to-own and stacked BNPL plans really cost compared with a credit union loan?",
+        "Which employer programs (small-dollar loans repaid through payroll, earned wage access) save workers",
+        "What works to stop aggressive debt collection on debts people don't owe, or can't verify?",
+        "What would help someone already caught in betting or an investment-fraud pitch, before the money is"
       ]
     },
     {

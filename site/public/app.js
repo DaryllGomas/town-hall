@@ -4,6 +4,8 @@ const SITE = location.origin + location.pathname;
 let siteKey = '';
 let widgetId = null;
 let busy = false;
+const expanded = new Set(); // problems whose full voice list is open
+const VOICES_SHOWN = 6;
 
 // What this browser has backed, so buttons show the right state. The server is the real record.
 const backed = loadBacked();
@@ -30,11 +32,17 @@ async function init() {
   } catch {
     /* posting will say the check is still loading */
   }
-  await refresh();
+  await refresh(true);
   setInterval(refresh, 60000);
+  wireFeedback();
 }
 
-async function refresh() {
+// The board redraws every minute, but never while someone is typing or has a form open,
+// so focus, caret and drafts stay put.
+async function refresh(force = false) {
+  const active = document.activeElement;
+  const typing = active && active.closest && active.closest('#board') && /INPUT|TEXTAREA/.test(active.tagName);
+  if (!force && (typing || document.querySelector('#board .compose:not([hidden])'))) return;
   try {
     const data = await fetch('/api/board').then((r) => r.json());
     render(data);
@@ -48,9 +56,9 @@ function render({ problems, totals }) {
   $('#s-ideas').textContent = fmt(totals.ideas);
   $('#s-backs').textContent = fmt(totals.backs);
 
-  const open = new Set([...document.querySelectorAll('.compose:not([hidden])')].map((f) => f.closest('.problem').id + f.className));
+  const open = new Set([...document.querySelectorAll('#board .compose:not([hidden])')].map((f) => f.closest('.problem').id + f.className));
   const drafts = {};
-  for (const f of document.querySelectorAll('.compose')) {
+  for (const f of document.querySelectorAll('#board .compose')) {
     const id = f.closest('.problem').id + f.className;
     drafts[id] = Object.fromEntries(new FormData(f));
   }
@@ -70,8 +78,29 @@ function render({ problems, totals }) {
 
     const voices = $('.voices', el);
     if (!p.voices.length) voices.append(li('empty', 'Nothing yet. What are you struggling with?'));
-    for (const v of p.voices) voices.append(voiceItem(v));
-    if (p.voiceCount > p.voices.length) voices.append(li('more-note', `+ ${fmt(p.voiceCount - p.voices.length)} more`));
+    const showAll = expanded.has(p.slug);
+    p.voices.forEach((v, i) => {
+      const item = voiceItem(v);
+      if (i >= VOICES_SHOWN && !showAll) item.hidden = true;
+      voices.append(item);
+    });
+    const hiddenCount = p.voices.length - VOICES_SHOWN;
+    if (hiddenCount > 0) {
+      const more = document.createElement('button');
+      more.type = 'button';
+      more.className = 'more-voices';
+      more.setAttribute('aria-expanded', showAll);
+      more.textContent = showAll ? 'Show fewer' : `Show ${fmt(hiddenCount)} more`;
+      more.addEventListener('click', () => {
+        const now = !expanded.has(p.slug);
+        now ? expanded.add(p.slug) : expanded.delete(p.slug);
+        voices.querySelectorAll('.voice').forEach((v, i) => { if (i >= VOICES_SHOWN) v.hidden = !now; });
+        more.setAttribute('aria-expanded', now);
+        more.textContent = now ? 'Show fewer' : `Show ${fmt(hiddenCount)} more`;
+      });
+      voices.after(more);
+    }
+    if (p.voiceCount > p.voices.length) voices.append(li('more-note', `+ ${fmt(p.voiceCount - p.voices.length)} more in the full record`));
 
     const ideas = $('.ideas', el);
     if (!p.ideas.length) ideas.append(li('empty', 'No fixes yet. What should happen?'));
@@ -100,56 +129,96 @@ function voiceItem(v) {
   el.append(q);
   const meta = document.createElement('div');
   meta.className = 'meta';
-  const from = { chat: 'From a live chat', x: 'From X', bluesky: 'From Bluesky', reddit: 'From Reddit' }[v.source];
+  const from = { chat: 'From a live chat', post: 'From a public post', x: 'From X', bluesky: 'From Bluesky', reddit: 'From Reddit' }[v.source];
   if (from) meta.append(tag(from));
-  meta.append(backButton('voice', v, 'Me too'));
+  meta.append(backButton('voice', v, 'Me too', v.text));
   el.append(meta);
   return el;
 }
 
 function ideaItem(i, p) {
   const el = document.createElement('li');
-  el.className = 'idea';
+  el.className = `idea ${i.source}`;
+  const kicker = document.createElement('p');
+  kicker.className = 'kicker';
+  const d = i.detail || {};
+  kicker.textContent = i.source === 'ai' ? 'AI draft' : i.source === 'repo'
+    ? `Researched fix · ${d.type === 'idea' ? 'New idea' : 'Works today'}` : 'From a person';
   const h = document.createElement('h4');
   h.textContent = i.title;
   const body = document.createElement('p');
+  body.className = 'idea-body';
   body.textContent = i.body;
+  el.append(kicker, h, body);
+
+  // Researched fixes say exactly who can act.
+  const who = d.who || {};
+  if (who.government || who.means || who.you) {
+    const dl = document.createElement('dl');
+    dl.className = 'who';
+    for (const [k, label] of [['government', 'Government'], ['means', 'People and companies with means'], ['you', 'You, this week']]) {
+      if (!who[k]) continue;
+      const dt = document.createElement('dt');
+      dt.textContent = label;
+      const dd = document.createElement('dd');
+      dd.textContent = who[k];
+      dl.append(dt, dd);
+    }
+    el.append(dl);
+  }
   const meta = document.createElement('div');
   meta.className = 'meta';
-  meta.append(backButton('idea', i, 'I back this'));
-  meta.append(tag(i.source === 'ai' ? 'AI draft' : i.source === 'repo' ? 'Researched fix' : 'From a person', i.source));
+  meta.append(backButton('idea', i, 'I back this', i.title));
+  if (d.url) {
+    const a = document.createElement('a');
+    a.className = 'research';
+    a.href = d.url;
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = d.sources ? `Read the research (${d.sources} sources)` : 'Read the research';
+    meta.append(a);
+  }
   const share = document.createElement('a');
   share.className = 'share';
   share.target = '_blank';
   share.rel = 'noopener';
-  const who = i.n === 1 ? '1 person believes' : `${fmt(i.n)} people believe`;
-  const text = `${who} this should happen on ${p.title.toLowerCase()}: "${i.title}"\n\nWhat's hurting, and what should happen. Add your voice:`;
-  share.href = `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(`${SITE}#${p.slug}`)}`;
+  share.href = shareUrl(i, p);
+  share.setAttribute('aria-label', `Share on X: ${i.title}`);
   share.textContent = 'Megaphone it';
+  // Built again at the moment of sharing, so the count matches what's on screen.
+  share.addEventListener('click', () => { share.href = shareUrl(i, p); });
   meta.append(share);
-  el.append(h, body, meta);
+  el.append(meta);
   return el;
 }
 
-function backButton(kind, item, label) {
+function shareUrl(i, p) {
+  const who = i.n === 1 ? '1 person believes' : `${fmt(i.n)} people believe`;
+  const text = `${who} this should happen on ${p.title.toLowerCase()}: "${i.title}"\n\nWhat's hurting, and what should happen. Add your voice:`;
+  return `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(`${SITE}#${p.slug}`)}`;
+}
+
+function backButton(kind, item, label, about) {
   const b = document.createElement('button');
   const key = `${kind}:${item.id}`;
   const on = backed.has(key);
   b.type = 'button';
   b.className = `back${on ? ' on' : ''}`;
   b.setAttribute('aria-pressed', on);
+  b.setAttribute('aria-label', `${label}, ${fmt(item.n)} so far: ${String(about || '').slice(0, 80)}`);
   b.innerHTML = `<span></span><b></b>`;
   b.firstChild.textContent = on ? `${label} ✓` : label;
   b.lastChild.textContent = fmt(item.n);
   b.addEventListener('click', async () => {
     const undo = backed.has(key);
-    const ok = await send('/api/back', { kind, id: item.id, undo }, b);
-    if (!ok) return;
-    undo ? backed.delete(key) : backed.add(key);
+    const out = await send('/api/back', { kind, id: item.id, undo }, b);
+    if (!out) return;
+    out.backed ? backed.add(key) : backed.delete(key);
     saveBacked();
-    item.n += undo ? -1 : 1;
-    const fresh = backButton(kind, item, label);
+    if (typeof out.n === 'number') item.n = out.n; // the server's count, not a guess
+    const fresh = backButton(kind, item, label, about);
     b.replaceWith(fresh);
+    fresh.focus();
     toast(undo ? 'Taken back.' : kind === 'idea' ? 'Backed. Share it so more people see it.' : "Counted. You're not alone.");
   });
   return b;
@@ -173,27 +242,37 @@ function wireForms(el, slug) {
       if (!out) return;
       form.reset();
       form.hidden = true;
+      if (out.id && out.backed !== false) {
+        backed.add(`${url === '/api/voice' ? 'voice' : 'idea'}:${out.id}`); // posting counts as backing it
+        saveBacked();
+      }
+      $(btn, el).focus();
       if (out.merged) toast('Someone already said that, so we counted you with them.');
       else if (out.pending) toast("Thanks! It'll show once it's been reviewed.");
       else toast(out.problem !== slug ? 'Posted. It fit better under another problem, so it went there.' : 'Posted. It shows within a minute.');
-      setTimeout(refresh, 31000); // the board is cached for 30 seconds
+      setTimeout(() => refresh(true), 31000); // the board is cached for 30 seconds
     });
   }
 }
 
-// One human check per write: Turnstile tokens are single-use.
+// Writes go out without a check first. A passed check earns a 30-minute pass (a cookie), so the
+// server only asks for a new one (needCheck) when the pass is missing or has run out.
 async function send(url, payload, button) {
   if (busy) return null;
   busy = true;
   if (button) button.disabled = true;
   try {
-    const token = await humanCheck();
-    const r = await fetch(url, {
+    const go = (token) => fetch(url, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...payload, token }),
+      body: JSON.stringify(token ? { ...payload, token } : payload),
     });
-    const out = await r.json().catch(() => ({}));
+    let r = await go();
+    let out = await r.json().catch(() => ({}));
+    if (r.status === 403 && out.needCheck) {
+      r = await go(await humanCheck());
+      out = await r.json().catch(() => ({}));
+    }
     if (!r.ok) throw new Error(out.error || 'Something went wrong. Try again.');
     return out;
   } catch (err) {
@@ -205,7 +284,15 @@ async function send(url, payload, button) {
   }
 }
 
+// One check at a time: starting a new Turnstile run would cancel one in progress.
+let checking = Promise.resolve();
 function humanCheck() {
+  const run = checking.then(runCheck);
+  checking = run.catch(() => {});
+  return run;
+}
+
+function runCheck() {
   return new Promise((resolve, reject) => {
     if (!window.turnstile || !siteKey) return reject(new Error('The human check is still loading. Try again in a second.'));
     let settled = false;
@@ -233,6 +320,18 @@ function humanCheck() {
       'before-interactive-callback': () => { $('#check').hidden = false; },
     });
     window.turnstile.execute(widgetId);
+  });
+}
+
+function wireFeedback() {
+  const form = $('#feedback-form');
+  if (!form) return;
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const out = await send('/api/feedback', Object.fromEntries(new FormData(form)), $('button[type=submit]', form));
+    if (!out) return;
+    form.reset();
+    toast('Thank you. Every note gets read.');
   });
 }
 

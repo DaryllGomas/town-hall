@@ -1,0 +1,9 @@
+[Unit]
+Description=Collect what people are struggling with, every morning
+
+[Timer]
+OnCalendar=*-*-* 07:30:00
+Persistent=true
+
+[Install]
+WantedBy=timers.target

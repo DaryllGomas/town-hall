@@ -23,6 +23,12 @@ binding = "AI"
 [triggers]
 crons = ["17 */6 * * *"]
 
+# Burst limit per network on every write (free; counters are per Cloudflare location).
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1002"
+simple = { limit = 60, period = 60 }
+
 [vars]
 # Public Turnstile site key. Local dev overrides it with the always-pass test key in .dev.vars.
 TURNSTILE_SITE_KEY = "0x4AAAAAAFayx1DO1U52jYLh"
