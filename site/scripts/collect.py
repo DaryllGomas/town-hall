@@ -99,7 +99,9 @@ def ingest(path, live=False, pending=False):
     for i in range(0, len(rows), 60):
         posts = [{"source": r["source"], "text": r["text"]} for r in rows[i:i + 60]]
         req = urllib.request.Request(f"{base}/api/admin/ingest", data=json.dumps({"posts": posts, "pending": pending}).encode(),
-                                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {token(live)}"})
+                                     headers={"Content-Type": "application/json", "Authorization": f"Bearer {token(live)}",
+                                              # Cloudflare blocks Python's default User-Agent on the custom domain.
+                                              "User-Agent": "town-hall-collector/0.1"})
         with urllib.request.urlopen(req, timeout=300) as r:
             stats = json.load(r)
         for k, v in stats.items():

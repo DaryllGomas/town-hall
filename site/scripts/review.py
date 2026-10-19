@@ -36,6 +36,11 @@ def pending():
 
 
 def set_status(items, value):
+    # Approvals can refile a post under a better-fitting problem.
+    slugs = {p["slug"] for p in json.loads((SITE / "public" / "problems.json").read_text())["problems"]}
+    for i in items:
+        if value == 1 and i.get("problem") in slugs and i.get("kind") in KINDS and str(i.get("id", "")).isdigit():
+            sql(f"UPDATE {KINDS[i['kind']]} SET problem = '{i['problem']}' WHERE approved = 0 AND id = {int(i['id'])}")
     for kind in KINDS:
         ids = sorted({int(i["id"]) for i in items if i.get("kind") == kind and str(i.get("id", "")).isdigit()})
         if ids:
