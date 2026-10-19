@@ -32,9 +32,25 @@ CREATE INDEX IF NOT EXISTS ideas_problem ON ideas (problem, approved);
 CREATE UNIQUE INDEX IF NOT EXISTS ideas_problem_key ON ideas (problem, title_key);
 CREATE INDEX IF NOT EXISTS ideas_ip ON ideas (ip_hash, created_at);
 
--- "Me too" on a voice and "I back this" on an idea. One per person per item.
+-- "Why not?": why someone disagrees with a fix or an issue's plan. Shown once the AI screen passes it (approved = 1).
+CREATE TABLE IF NOT EXISTS objections (
+  id          INTEGER PRIMARY KEY AUTOINCREMENT,
+  target      TEXT NOT NULL,          -- 'idea:<id>' or 'plan:<problem slug>'
+  problem     TEXT NOT NULL,
+  text        TEXT NOT NULL,
+  text_key    TEXT NOT NULL,
+  voter_hash  TEXT NOT NULL,
+  ip_hash     TEXT NOT NULL,
+  approved    INTEGER NOT NULL DEFAULT 0,
+  created_at  INTEGER NOT NULL
+);
+CREATE UNIQUE INDEX IF NOT EXISTS objections_target_key ON objections (target, text_key);
+CREATE INDEX IF NOT EXISTS objections_target ON objections (target, approved);
+CREATE INDEX IF NOT EXISTS objections_ip ON objections (ip_hash, created_at);
+
+-- "Me too" on a voice, "I back this" on an idea and "Agree" on an objection. One per person per item.
 CREATE TABLE IF NOT EXISTS backs (
-  kind        TEXT NOT NULL,          -- 'voice' | 'idea'
+  kind        TEXT NOT NULL,          -- 'voice' | 'idea' | 'objection'
   item_id     INTEGER NOT NULL,
   voter_hash  TEXT NOT NULL,
   ip_hash     TEXT NOT NULL,

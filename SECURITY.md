@@ -27,6 +27,8 @@ and Bluesky are stored as text only, with handles and links removed.
 How it resists gaming:
 - A Cloudflare Turnstile human check, verified on the server. A passed check earns a 30-minute pass signed
   to that browser's cookie id, so a bot that clears cookies has to pass a new check every time.
+- "Why not?" objections to fixes and plans go through the same human check, screen, daily AI-check budgets and
+  limits as any post, and agreeing with one is backing it.
 - One "me too" or "I back this" per browser per item; reposting existing text counts as backing it.
 - Per-network limits (IPv6 counted by its /64): 60 requests a minute, 20 posts and 300 backs a day, 40 AI screens
   a day (10 per browser). The human check must match this site's hostname and action.

@@ -29,9 +29,11 @@ in the maintainer's private security program, not here.
    who can make it happen: government, people and companies with means, and you, this week.
 6. **Publish.** After a merge, the maintainer syncs fixes to the site (deploy, below).
 7. **Back.** People post, say "me too", back fixes and share them. The counts are the message.
+   People can also say **why not** on a fix or an issue's plan, and agree with each other's objections. They
+   are screened like any post and shown under what they challenge.
 8. **Review.** Every Monday Claude writes a digest: biggest problems, new problems forming in
    "Something else", fixes with momentum, feedback themes, and stuffing signals (busiest items by network,
-   backing from brand-new browsers).
+   backing from brand-new browsers), and the strongest objections to fixes and plans, which feed revisions.
    Proposed changes become pull requests.
 
 ## Routine tasks
@@ -63,6 +65,7 @@ the full picture for fresh databases. Check for rows that would break a new cons
 python3 site/scripts/review.py pending             # anything waiting
 python3 site/scripts/review.py reject voice 123    # take something down
 python3 site/scripts/review.py approve idea 45
+python3 site/scripts/review.py reject objection 9  # objections ("Why not?") are moderated the same way
 ```
 
 Take down first, discuss after: defamation, private people, contact details, harassment, self-harm,

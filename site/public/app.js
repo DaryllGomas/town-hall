@@ -8,6 +8,7 @@ const expanded = new Set(); // problems whose full voice list is open
 const VOICES_SHOWN = 6;
 let active = hashSlug();
 const openWho = new Set(); // fixes whose "who can act" is expanded, kept across refreshes
+const openConcerns = new Set(); // fixes and plans whose objection list is open, kept across refreshes
 const motion = () => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
 
 // The issue in the URL hash; a malformed hash just means "no choice".
@@ -109,7 +110,7 @@ async function refresh(force = false) {
   // Never redraw under someone: not while focus is anywhere in the board, typing or not.
   const typing = el && el !== document.body && el.closest && el.closest('#board');
   const drafting = [...document.querySelectorAll('#board .compose input:not(.hp), #board .compose textarea')].some((f) => f.value.trim());
-  if (!force && (typing || drafting || document.querySelector('#board .idea-form:not([hidden])'))) return;
+  if (!force && (typing || drafting || document.querySelector('#board .idea-form:not([hidden]), #board .objection-form:not([hidden])'))) return;
   try {
     const data = await fetch('/api/board').then((r) => r.json());
     render(data);
@@ -123,12 +124,11 @@ function render({ problems, totals }) {
   $('#s-ideas').textContent = fmt(totals.ideas);
   $('#s-backs').textContent = fmt(totals.backs);
 
-  const open = new Set([...document.querySelectorAll('#board .compose:not([hidden])')].map((f) => f.closest('.problem').id + f.className));
+  // Forms are told apart by problem and class, plus data-key for the many objection forms on one issue.
+  const formId = (f) => f.closest('.problem').id + f.className + (f.dataset.key || '');
+  const open = new Set([...document.querySelectorAll('#board .compose:not([hidden])')].map(formId));
   const drafts = {};
-  for (const f of document.querySelectorAll('#board .compose')) {
-    const id = f.closest('.problem').id + f.className;
-    drafts[id] = Object.fromEntries(new FormData(f));
-  }
+  for (const f of document.querySelectorAll('#board .compose')) drafts[formId(f)] = Object.fromEntries(new FormData(f));
 
   const board = $('#board');
   board.textContent = '';
@@ -172,6 +172,10 @@ function render({ problems, totals }) {
         ol.append(item);
       }
       $('.plan-note', el).textContent = plan.note || '';
+      const target = `plan:${p.slug}`;
+      const ask = askButton('Disagree with this plan? Say why', `Disagree with the plan for: ${p.title}`);
+      const parts = objectionParts(target, 'plan', ask, p.planObjections, p.planObjectionCount);
+      $('.p-plan', el).append(ask, parts.form, ...parts.concerns);
     } else {
       $('.p-plan', el).remove();
     }
@@ -212,7 +216,7 @@ function render({ problems, totals }) {
 
     wireForms(el, p.slug);
     for (const f of el.querySelectorAll('.compose')) {
-      const id = p.slug + f.className;
+      const id = p.slug + f.className + (f.dataset.key || '');
       if (open.has(id)) f.hidden = false;
       for (const [k, v] of Object.entries(drafts[id] || {})) if (f.elements[k]) f.elements[k].value = v;
     }
@@ -314,6 +318,8 @@ function ideaItem(i, p) {
   const meta = document.createElement('div');
   meta.className = 'meta';
   meta.append(backButton('idea', i, 'I back this', i.title));
+  const ask = askButton('Why not?', `Why not: ${i.title}`);
+  meta.append(ask);
   if (d.url) {
     const a = document.createElement('a');
     a.className = 'research';
@@ -334,7 +340,86 @@ function ideaItem(i, p) {
   share.addEventListener('click', () => { share.href = shareUrl(i, p); });
   meta.append(share);
   el.append(meta);
+  const parts = objectionParts(`idea:${i.id}`, 'fix', ask, i.objections, i.objectionCount);
+  el.append(parts.form, ...parts.concerns);
   return el;
+}
+
+// The small text button that opens an objection form.
+function askButton(text, label) {
+  const b = document.createElement('button');
+  b.type = 'button';
+  b.className = 'why-not';
+  b.textContent = text;
+  b.setAttribute('aria-label', label);
+  return b;
+}
+
+// "Why not?" for a fix or a plan: the form the ask button opens, and the list of concerns already raised
+// (a toggle plus the list). `what` is 'fix' or 'plan'.
+function objectionParts(target, what, ask, list = [], count = 0) {
+  const form = document.createElement('form');
+  form.className = 'compose objection-form';
+  form.dataset.key = target;
+  form.hidden = true;
+  form.innerHTML = `<label><span></span><textarea name="text" rows="3" minlength="15" maxlength="600" required></textarea></label>
+    <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <div class="row"><button class="btn accent small" type="submit">Post</button><button class="btn ghost small cancel" type="button">Cancel</button></div>`;
+  $('span', form).textContent = `What's wrong with this ${what}, or what would make it better?`;
+  ask.addEventListener('click', () => {
+    form.hidden = false;
+    $('textarea', form).focus();
+  });
+  $('.cancel', form).addEventListener('click', () => {
+    form.hidden = true;
+    form.reset();
+    ask.focus();
+  });
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const out = await send('/api/objection', { target, ...Object.fromEntries(new FormData(form)) }, $('button[type=submit]', form));
+    if (!out) return;
+    form.reset();
+    form.hidden = true;
+    if (out.id && out.backed !== false) {
+      backed.add(`objection:${out.id}`); // posting counts as agreeing with it
+      saveBacked();
+    }
+    ask.focus();
+    if (out.merged) toast('Someone raised that already, so we counted you with them.');
+    else if (out.pending) toast("Thanks! It'll show once it's been reviewed.");
+    else toast('Posted. It shows within a minute.');
+    setTimeout(() => refresh(true), 31000); // the board is cached for 30 seconds
+  });
+
+  const concerns = [];
+  if (count > 0) {
+    const wasOpen = openConcerns.has(target);
+    const toggle = document.createElement('button');
+    toggle.type = 'button';
+    toggle.className = 'why-not concern-toggle';
+    toggle.textContent = `${fmt(count)} ${count === 1 ? 'concern' : 'concerns'}`;
+    toggle.setAttribute('aria-expanded', wasOpen);
+    const ul = document.createElement('ul');
+    ul.className = 'concerns';
+    ul.hidden = !wasOpen;
+    for (const o of list) {
+      const item = document.createElement('li');
+      const q = document.createElement('p');
+      q.textContent = o.text;
+      item.append(q, backButton('objection', o, 'Agree', o.text));
+      ul.append(item);
+    }
+    if (count > list.length) ul.append(li('more-note', `+ ${fmt(count - list.length)} more in the full record`));
+    toggle.addEventListener('click', () => {
+      const now = ul.hidden;
+      ul.hidden = !now;
+      now ? openConcerns.add(target) : openConcerns.delete(target);
+      toggle.setAttribute('aria-expanded', now);
+    });
+    concerns.push(toggle, ul);
+  }
+  return { form, concerns };
 }
 
 function shareUrl(i, p) {
@@ -364,7 +449,7 @@ function backButton(kind, item, label, about) {
     const fresh = backButton(kind, item, label, about);
     b.replaceWith(fresh);
     fresh.focus();
-    toast(undo ? 'Taken back.' : kind === 'idea' ? 'Backed. Share it so more people see it.' : "Counted. You're not alone.");
+    toast(undo ? 'Taken back.' : kind === 'idea' ? 'Backed. Share it so more people see it.' : kind === 'objection' ? 'Counted. Thanks for weighing in.' : "Counted. You're not alone.");
   });
   return b;
 }
