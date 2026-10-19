@@ -154,6 +154,21 @@ button, input, textarea { font: inherit; color: inherit; }
 .tag { font-size: 11.5px; font-weight: 600; color: var(--faint); border: 1px solid var(--line); border-radius: 99px; padding: 2px 9px; }
 .more-voices { border: 0; background: none; padding: 10px 0 0; font-size: 14px; font-weight: 700; color: var(--beam-2); cursor: pointer; text-decoration: underline; }
 
+/* Why not? objections: small underlined text buttons, a compact list, forms that reuse .compose */
+.why-not { border: 0; background: none; padding: 4px 0; font-size: 13px; font-weight: 700; color: var(--beam-2); cursor: pointer; text-decoration: underline; }
+.idea .why-not { color: #9a3412; }
+.concern-toggle { display: block; margin-top: 6px; }
+.p-plan > .why-not { display: block; margin-top: 12px; }
+.concerns { list-style: none; margin: 6px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.concerns[hidden] { display: none; }
+.concerns li { border-left: 3px solid var(--line); padding: 2px 0 2px 10px; display: flex; flex-direction: column; align-items: flex-start; gap: 6px; }
+.idea .concerns li { border-left-color: #d6c3a5; }
+.concerns p { margin: 0; font-size: 14px; line-height: 1.45; }
+.objection-form { margin-top: 10px; }
+.idea .objection-form label { color: var(--ink-muted); }
+.idea .objection-form textarea { background: #fff; color: var(--ink); border-color: #d6c3a5; }
+.p-plan .objection-form textarea { background: var(--night-2); }
+
 /* Buttons and forms */
 .btn { display: inline-flex; align-items: center; justify-content: center; border: 0; border-radius: 10px; background: var(--card-2); color: var(--text); padding: 11px 18px; font-weight: 700; cursor: pointer; text-decoration: none; }
 .btn.accent { background: linear-gradient(180deg, #c2410c, #a8370a); color: #fff; box-shadow: 0 6px 18px rgba(255, 122, 26, .28); }
@@ -236,3 +251,5 @@ button, input, textarea { font: inherit; color: inherit; }
   #nav-voice { display: none; }
 }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .toast { transition: none; } }
+.idea .btn.ghost { color: var(--ink); border-color: #c9b89c; }
+.idea .btn.ghost:hover { border-color: var(--ink); }

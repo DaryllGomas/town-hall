@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Review held posts, apply review decisions, and export the board for an AI digest.
 
-  review.py pending [--json]       voices and ideas waiting for review (approved = 0)
-  review.py approve voice 12       show it on the page
+  review.py pending [--json]       voices, ideas and objections waiting for review (approved = 0)
+  review.py approve voice 12       show it on the page (kinds: voice, idea, objection)
   review.py reject idea 7          hide it for good
   review.py apply DECISIONS.json [--only PENDING.json]
                                    apply {"approve": [{"kind": "voice", "id": 12}], "reject": [...]} in one go
@@ -28,7 +28,7 @@ if "--only" in argv:
 args = [a for a in argv if not a.startswith("--")]
 flags = {a for a in argv if a.startswith("--")}
 where = "--local" if "--local" in flags else "--remote"
-KINDS = {"voice": "voices", "idea": "ideas"}
+KINDS = {"voice": "voices", "idea": "ideas", "objection": "objections"}
 
 
 # Timers use a Cloudflare API token scoped to D1 only, when it exists, instead of the full wrangler login.
@@ -50,6 +50,7 @@ def sql(query):
 def pending():
     rows = [{"kind": "voice", **r} for r in sql("SELECT id, problem, source, text FROM voices WHERE approved = 0 ORDER BY id")]
     rows += [{"kind": "idea", **r} for r in sql("SELECT id, problem, source, title, body AS text FROM ideas WHERE approved = 0 ORDER BY id")]
+    rows += [{"kind": "objection", **r} for r in sql("SELECT id, problem, target, text FROM objections WHERE approved = 0 ORDER BY id")]
     return rows
 
 
@@ -75,6 +76,8 @@ def export():
                       "FROM voices t WHERE approved = 1"),
         "ideas": sql(f"SELECT t.id, t.problem, t.title, t.body, t.source, t.created_at, {backers.format(k='idea')} AS backers "
                      "FROM ideas t WHERE approved = 1"),
+        "objections": sql(f"SELECT t.id, t.problem, t.target, t.text, t.created_at, {backers.format(k='objection')} AS backers "
+                          "FROM objections t WHERE approved = 1"),
         "feedback": sql("SELECT text, created_at FROM feedback ORDER BY created_at"),
         # Stuffing signals: busiest items in the last day, and how much backing came from brand-new browsers.
         "spikes": sql("SELECT kind, item_id, COUNT(*) AS backs_24h, COUNT(DISTINCT ip_hash) AS networks FROM backs "
@@ -89,13 +92,22 @@ def export():
 def markdown(d):
     problems = {p["slug"]: p["title"] for p in json.loads((SITE / "public" / "problems.json").read_text())["problems"]}
     lines = ["# Town Hall: what people said", ""]
+    objections = {}
+    for o in sorted(d["objections"], key=lambda o: -o["backers"]):
+        objections.setdefault(o["target"], []).append(o)
     for slug, title in problems.items():
         voices = sorted((v for v in d["voices"] if v["problem"] == slug), key=lambda v: -v["backers"])
         ideas = sorted((i for i in d["ideas"] if i["problem"] == slug), key=lambda i: -i["backers"])
         lines += [f"## {title} ({len(voices)} voices, {len(ideas)} fixes)", "", "### Voices", ""]
         lines += [f"- [{v['source']}, {v['backers']} me too] {v['text']}" for v in voices] or ["- none"]
         lines += ["", "### Fixes", ""]
-        lines += [f"- [{i['source']}, {i['backers']} backers] **{i['title']}**: {i['body']}" for i in ideas] or ["- none"]
+        for i in ideas:
+            lines.append(f"- [{i['source']}, {i['backers']} backers] **{i['title']}**: {i['body']}")
+            lines += [f"  - Objection [{o['backers']} agree]: {o['text']}" for o in objections.get(f"idea:{i['id']}", [])]
+        lines += [] if ideas else ["- none"]
+        plan = objections.get(f"plan:{slug}", [])
+        if plan:
+            lines += ["", "### Objections to the plan", ""] + [f"- [{o['backers']} agree] {o['text']}" for o in plan]
         lines.append("")
     lines += ["## Feedback on the site", ""] + ([f"- {f['text']}" for f in d["feedback"]] or ["- none"])
     lines += ["", "## Stuffing signals", "", "Busiest items, last 24 hours (backs, distinct networks):"]
