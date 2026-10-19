@@ -65,6 +65,8 @@ By contributing you agree to license your contribution the same way.
 
 ## The site
 
+**Live: https://townhall.bigpicsolutions.com**
+
 [`site/`](site/) is the public page: people say what they're struggling with, back the fixes they believe in,
 and AI drafts new fixes every 6 hours from what people said. The page itself is the megaphone: anyone can see
 what people are hurting from and what they believe should happen, with the numbers behind it.
@@ -80,6 +82,10 @@ what people are hurting from and what they believe should happen, with the numbe
 It runs on Cloudflare's free plan (Workers, D1, Workers AI, Turnstile), like its sister project. Every write
 needs a Turnstile human check. Posts get an AI screen that stops spam, private details and personal attacks,
 never politics. There are per-network daily caps, duplicate posts count as backing, and no raw IPs are stored.
+
+Deploy: `cd site && npx wrangler deploy` (Cloudflare account on thor). Collect and load new voices:
+`python3 scripts/collect.py bluesky`, skim the file in `data/raw/`, then `python3 scripts/collect.py ingest <file> --live`
+(the admin token lives in `~/.config/town-hall/admin-token`, never in the repo).
 
 Run it locally:
 

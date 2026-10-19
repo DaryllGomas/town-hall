@@ -1,6 +1,9 @@
 name = "town-hall"
 main = "src/worker.js"
 compatibility_date = "2026-09-01"
+# Live at townhall.bigpicsolutions.com; keep the workers.dev address on too (a custom domain turns it off otherwise).
+workers_dev = true
+routes = [{ pattern = "townhall.bigpicsolutions.com", custom_domain = true }]
 
 [assets]
 directory = "public"
@@ -10,7 +13,7 @@ run_worker_first = ["/api/*"]
 [[d1_databases]]
 binding = "DB"
 database_name = "town-hall"
-database_id = "LOCAL-ONLY-REPLACE-ON-CREATE"
+database_id = "660d2731-445c-47e3-bf1b-4726169439a3"
 
 # Workers AI: the post screen and the fix drafts (free daily allowance).
 [ai]
@@ -22,7 +25,7 @@ crons = ["17 */6 * * *"]
 
 [vars]
 # Public Turnstile site key. Local dev overrides it with the always-pass test key in .dev.vars.
-TURNSTILE_SITE_KEY = "REPLACE-WITH-SITE-KEY"
+TURNSTILE_SITE_KEY = "0x4AAAAAAFayx1DO1U52jYLh"
 
 # Secrets (wrangler secret put ...), never committed:
 #   TURNSTILE_SECRET  Turnstile secret key
