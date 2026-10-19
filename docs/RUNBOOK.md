@@ -40,11 +40,13 @@ in the maintainer's private security program, not here.
 
 ```sh
 python3 scripts/check_submission.py --all          # repo content is valid
-python3 site/scripts/sync-problems.py              # problems.json + seed.sql from problems/
-cd site
-npx wrangler d1 execute town-hall --remote --file seed.sql
-npx wrangler deploy
+site/scripts/deploy.sh                             # sync problems, seed D1, deploy the worker
+site/scripts/deploy.sh secret put NAME             # any wrangler command, with the same token
 ```
+
+Deploys use a Cloudflare API token scoped to Workers, D1 and Workers Routes on this account only (never a
+full account login), and the daily jobs use a separate token that can only reach D1. Both expire every
+90 days; renew them before they do.
 
 Database changes: add a file to `site/migrations/`, run it with `--remote --file`, and keep `schema.sql`
 the full picture for fresh databases. Check for rows that would break a new constraint first.
@@ -125,7 +127,7 @@ AI agent misbehaving, and threats or doxxing; this page covers the site itself.
 | `HASH_SALT` | Worker secret | Leak | `wrangler secret put` (resets passes and per-browser identity) |
 | `ADMIN_TOKEN` | Worker secret + one private copy for the collectors | Leak, or every 90 days | New random value, `wrangler secret put`, update the private copy |
 | `PASS_KEY` | Worker secret | Leak | `wrangler secret put` (everyone's 30-minute pass ends; they pass one new check) |
-| Cloudflare API tokens | Maintainer only, scoped: one for deploys, one D1-only for the timers | Leak, or every 90 days | Cloudflare dashboard → API tokens |
+| Cloudflare API tokens | Maintainer only, scoped: one for deploys, one D1-only for the timers | Leak, or before they expire (90 days) | Cloudflare dashboard → Manage account → Account API tokens → roll |
 
 No secret is ever committed. `*.example` files show the shape; secret scanning and push protection are on.
 
