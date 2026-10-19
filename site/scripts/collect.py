@@ -6,7 +6,8 @@
 
 X is collected through a logged-in browser with collect-x.js. Raw files keep the post links and stay
 in data/raw/ (git-ignored). Only anonymized text ever reaches the site.
-The admin token comes from TOWN_HALL_ADMIN_TOKEN, or site/.dev.vars for the local dev server.
+The admin token comes from TOWN_HALL_ADMIN_TOKEN, ~/.config/town-hall/admin-token (live) or
+site/.dev.vars (local dev server).
 """
 import datetime
 import json
@@ -20,7 +21,7 @@ import urllib.request
 SITE = pathlib.Path(__file__).resolve().parents[1]
 RAW = SITE.parent / "data" / "raw"
 LOCAL = "http://localhost:8787"
-LIVE = os.environ.get("TOWN_HALL_URL", "")
+LIVE = os.environ.get("TOWN_HALL_URL", "https://townhall.bigpicsolutions.com")
 
 
 def queries():
@@ -76,6 +77,9 @@ def save(rows, source):
 
 def token(live):
     t = os.environ.get("TOWN_HALL_ADMIN_TOKEN", "")
+    saved = pathlib.Path.home() / ".config" / "town-hall" / "admin-token"
+    if not t and live and saved.exists():
+        t = saved.read_text().strip()
     if not t and not live:
         for line in (SITE / ".dev.vars").read_text().splitlines():
             if line.startswith("ADMIN_TOKEN="):

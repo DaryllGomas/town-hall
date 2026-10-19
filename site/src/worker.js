@@ -28,6 +28,10 @@ export default {
       if (url.pathname === '/api/idea' && req.method === 'POST') return post(req, env, 'idea');
       if (url.pathname === '/api/back' && req.method === 'POST') return back(req, env);
       if (url.pathname === '/api/admin/ingest' && req.method === 'POST') return ingest(req, env);
+      if (url.pathname === '/api/admin/draft' && req.method === 'POST') {
+        if (!(await isAdmin(req, env))) return json({ error: 'not found' }, 404);
+        return json({ drafted: await draftIdeas(env) });
+      }
       if (url.pathname.startsWith('/api/')) return json({ error: 'not found' }, 404);
       return env.ASSETS.fetch(req);
     } catch (err) {
@@ -220,9 +224,7 @@ const FUNDRAISING = /\b(cash ?app|venmo|paypal|gofundme|ko-?fi|donat\w*|commissi
 const PARTISAN = /\b(gop|magas?|dems?|democrats?|republicans?|liberals?|libs|conservatives?|leftists?|right[- ]wing|left[- ]wing|trump|biden|harris|vance|obama|congress(?:man|woman)?|senators?|vote[sd]?|voting|election|administration|regime)\b/i;
 
 async function ingest(req, env) {
-  if (!env.ADMIN_TOKEN || !(await sameSecret(req.headers.get('Authorization') || '', `Bearer ${env.ADMIN_TOKEN}`))) {
-    return json({ error: 'not found' }, 404);
-  }
+  if (!(await isAdmin(req, env))) return json({ error: 'not found' }, 404);
   const body = await readJson(req);
   const posts = Array.isArray(body?.posts) ? body.posts.slice(0, 200) : [];
   const stats = { received: posts.length, kept: 0, duplicate: 0, dropped: 0, unchecked: 0 };
@@ -296,6 +298,10 @@ async function aiTriage(env, texts) {
   }
 }
 
+async function isAdmin(req, env) {
+  return !!env.ADMIN_TOKEN && sameSecret(req.headers.get('Authorization') || '', `Bearer ${env.ADMIN_TOKEN}`);
+}
+
 async function sameSecret(a, b) {
   const [x, y] = await Promise.all([sha256(a), sha256(b)]);
   let diff = 0;
@@ -332,7 +338,7 @@ async function aiScreen(env, kind, problem, title, text) {
 
 // Cron: draft fixes for problems that have few AI ideas, or new voices since the last draft.
 async function draftIdeas(env) {
-  if (!env.AI) return;
+  if (!env.AI) return 0;
   let drafted = 0;
   for (const p of problems) {
     if (p.slug === 'other' || drafted >= DRAFTS_PER_RUN) continue;
@@ -373,6 +379,7 @@ async function draftIdeas(env) {
     drafted += 1;
   }
   console.log(`drafted ${drafted} ideas`);
+  return drafted;
 }
 
 async function askJson(env, prompt, maxTokens, temperature = 0) {
