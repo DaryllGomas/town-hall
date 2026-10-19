@@ -15,6 +15,38 @@ sources:
 
 # Jobs, layoffs and low pay
 
+## The issue
+
+Many jobs pay far below what it costs to live, and millions of people work part time because their
+hours were cut or they couldn't find full-time work. Layoffs happen every month, often because a
+position or shift was abolished, and the median job search runs close to three months. Workers who lose
+a long-held job often come back at lower pay: only about half of those back in full-time work earn as
+much as before. AI may reach a large share of jobs, and entry-level workers in the most exposed fields
+are already seeing fewer openings. The help that exists has deadlines and waiting periods, so people
+lose money just by not knowing about it in time.
+
+## The solution
+
+**Losing a job or hours should lead to a bridge back to comparable work, not a slide into lower pay.**
+
+1. **Employers and states:** employers facing a temporary slowdown file a state work-sharing plan
+   before laying anyone off, and states without a program pass one.
+   ([evidence](solutions/work-sharing-instead-of-layoffs.md))
+2. **States:** let laid-off workers file for unemployment and health coverage in one step, send a
+   first-week checklist with every layoff notice, and cut the wait for the first payment.
+   ([evidence](solutions/first-week-after-a-layoff.md))
+3. **State and local workforce boards:** steer federal training money (WIOA) toward sector-focused
+   programs with randomized evidence, and pay for the child care, transport and stipends that keep
+   people enrolled. ([evidence](solutions/sectoral-job-training.md))
+4. **Employers doing layoffs:** pay severance that covers the wait for benefits, bring the state Rapid
+   Response team on site before the last day, and fund training for the people they let go.
+   ([evidence](solutions/first-week-after-a-layoff.md))
+5. **Congress, with the companies gaining most from AI:** create wage insurance that tops up pay for
+   long-tenure workers who take a lower-paying job, starting with a funded pilot.
+   ([evidence](solutions/ai-transition-pay.md))
+
+*Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request.*
+
 ## In people's words
 
 > I was so happy to finally get a job, but they've cut everyone's hours in my department and now I live paycheck to paycheck again. Barely.

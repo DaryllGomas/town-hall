@@ -27,6 +27,35 @@ def section(body, name):
     return m.group(1).strip() if m else ""
 
 
+def plain(md):
+    """Markdown paragraph -> plain text (links keep their words; emphasis markers dropped)."""
+    md = re.sub(r"\[([^\]]+)\]\([^)]+\)", r"\1", md)
+    return re.sub(r"\s+", " ", re.sub(r"[*_`]", "", md)).strip()
+
+
+def plan(md, slug):
+    """'## The solution' -> {goal, steps: [{who, text, evidence}], note}. Empty dict when the section is missing."""
+    if not md:
+        return {}
+    goal = re.search(r"\*\*(.+?)\*\*", md, re.S)
+    steps = []
+    for item in re.findall(r"^\d+\.\s+(.+?)(?=^\d+\.\s|^\*[^*]|\Z)", md, re.M | re.S):
+        item = re.sub(r"\s+", " ", item).strip()
+        ev = re.search(r"\(\[[^\]]*\]\((solutions/[^)]+\.md)\)\)", item)
+        who = re.match(r"\*\*(.+?)\*\*:?\s*", item)
+        text = item[who.end():] if who else item
+        text = re.sub(r"\s*\(\[[^\]]*\]\([^)]+\)\)", "", text)
+        steps.append({
+            "who": plain(who.group(1)).rstrip(":") if who else "",
+            "text": plain(text).lstrip(": ").strip(),
+            "evidence": f"{REPO_URL}problems/{slug}/{ev.group(1)}" if ev else "",
+        })
+    note = re.search(r"^\*([^*].+?)\*\s*$", md, re.M)
+    g = re.sub(r"^goal:\s*", "", plain(goal.group(1)), flags=re.I) if goal else ""
+    return {"goal": g[:1].upper() + g[1:], "steps": steps, "note": plain(note.group(1)) if note else ""}
+
+
+REPO_URL = "https://github.com/DaryllGomas/town-hall/blob/main/"
 problems, seeds = [], []
 for readme in sorted(ROOT.glob("problems/*/README.md")):
     slug = readme.parent.name
@@ -39,6 +68,8 @@ for readme in sorted(ROOT.glob("problems/*/README.md")):
         "slug": slug,
         "title": fields.get("title", slug),
         "questions": [q for q in questions if not q.lower().startswith("reminder")],
+        "issue": plain(section(body, "The issue")),
+        "plan": plan(section(body, "The solution"), slug),
     })
     # Quotes from the captured White House chat are "chat"; quotes from collected public posts are "post".
     source = "chat" if "data/chats" in readme.read_text().split("---")[1] else "post"

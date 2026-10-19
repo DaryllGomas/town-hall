@@ -13,6 +13,40 @@ collections, damaged credit, and choosing between care and rent. Many did everyt
 went under. (Prices and insurance access are covered in [health-care-costs](../health-care-costs/).
 This problem is about the debt itself and getting out from under it.)
 
+## The issue
+
+Medical debt builds when people get care they need and then get bills they can't pay, whether they
+were uninsured for part of the year or insured with costs their plan didn't cover. Many people with
+hospital debt qualify for free or discounted care that nonprofit hospitals must offer, but the system
+waits for patients to find out and apply, and in one survey only 29% of people with unaffordable
+hospital bills managed to get it. Unpaid bills move to collectors and can land on credit reports, and
+people cut back on food and basics or drain their savings to pay. It hits hardest among people who are
+already sick or disabled, and among Black adults. Buying and cancelling old debt is cheap, but on its
+own it showed no measurable health or financial-wellness gains in the one large randomized study, so
+new debt has to be stopped from forming.
+
+## The solution
+
+**No one should go into debt for care they already qualified to get free or discounted.**
+
+1. **State legislatures:** require hospitals and other providers to screen every patient for financial
+   assistance before the first bill, and to report each year how many were screened, approved and sent
+   to collections. ([evidence](solutions/screen-every-patient-before-the-first-bill.md))
+2. **Hospitals and health systems:** print the assistance eligibility table on the front of every bill,
+   staff a financial counselor at discharge, and pause collections while an application is pending.
+   ([evidence](solutions/apply-for-hospital-financial-assistance.md))
+3. **States:** follow Colorado by requiring an itemized bill before collection, pausing collection
+   during an insurance appeal, and capping interest on medical debt at 3% a year.
+   ([evidence](solutions/check-dispute-and-negotiate-the-bill.md))
+4. **States, counties and philanthropy:** fund rounds that buy and cancel residents' existing medical
+   debt through a relief nonprofit, paired with the prevention steps above.
+   ([evidence](solutions/government-funded-medical-debt-buy-and-forgive.md))
+5. **Federal government (IRS):** audit more nonprofit hospitals' notice and screening practices under
+   section 501(r) and publish the results.
+   ([evidence](solutions/apply-for-hospital-financial-assistance.md))
+
+*Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request.*
+
 ## In people's words
 
 > I've spent years doing everything I could possibly do and I still can't afford my own medical bills or my own home. There's a disbalance somewhere.

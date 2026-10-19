@@ -12,6 +12,38 @@ No cushion: one late paycheck, car repair, layoff or medical bill away from ever
 The goal here is practical: help people get through a stretch of instability and out the other side
 to stability.
 
+## The issue
+
+About 1 in 3 adults can't cover a $400 surprise with cash, and for 4 in 10 adults earning under
+$50,000, even $100 is out of reach from savings. Big unexpected costs like car repairs, home repairs
+and medical bills hit most adults in a given year, so without a cushion one of them turns into missed
+bills, late rent or high-cost debt. When pay is delayed, hours are cut or a job ends, more people now
+turn to retirement savings, where income tax, a possible 10% additional tax and 20% withholding up front
+make it an expensive emergency fund. Young adults and renters show the strain most: nearly half of
+adults 18 to 29 needed outside help with an expense, and nearly a quarter of renters fell behind on
+rent in the past year.
+
+## The solution
+
+**Every working household should have a small cushion to fall back on, and fast help when that isn't enough, before a bill becomes a debt or an eviction.**
+
+1. **Cities, counties and states:** fund year-round emergency assistance pools that pay landlords and
+   utilities within days, with phone or text applications, and have courts refer tenants at every
+   eviction filing. ([evidence](solutions/fast-one-time-emergency-cash.md))
+2. **Employers:** offer emergency savings accounts with auto-enrollment, a seed deposit, a match and
+   fee-free withdrawals. ([evidence](solutions/employer-emergency-savings-accounts.md))
+3. **Employers and retirement plan providers:** switch on the $1,000 emergency withdrawal and show the
+   real after-tax cost of a full cash-out before anyone takes one.
+   ([evidence](solutions/before-you-cash-out-a-401k.md))
+4. **Philanthropy and regional employers:** pilot a "first $1,000" fund that seeds low-income workers'
+   own savings accounts and matches refills, with an independent evaluation.
+   ([evidence](solutions/first-1000-cushion-fund.md))
+5. **Congress:** let employer matches go straight into workplace emergency savings accounts and give
+   small businesses a tax credit for seeding them.
+   ([evidence](solutions/employer-emergency-savings-accounts.md))
+
+*Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request.*
+
 ## In people's words
 
 > I dont want to be this poor again. Just living paycheck to paycheck, then when pay gets delayed everything is getting more difficult. I'm tired of living like this

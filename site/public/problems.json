@@ -9,16 +9,76 @@
         "How can renters in small buildings stay put when an owner sells or property taxes jump?",
         "What keeps evicted children in the same school, and which districts do it well?",
         "Which states seal eviction records automatically, and how well are screening companies following"
-      ]
+      ],
+      "issue": "Half of renters spend 30% or more of their income on housing, so a short crisis like a job loss or a medical bill can leave a household behind on rent and facing an eviction filing. Landlords' own rising costs, such as property taxes and insurance, are often passed on to renters, and a sale can push out tenants who always paid. Tenants often face court without a lawyer (in New York City before its law, only 1% had one while more than 90% of landlords did), and even a case they win can sit on screening reports and block their next rental. An eviction order raises homelessness and hospital visits and cuts earnings and credit for years, and it falls hardest on children and on Black renters.",
+      "plan": {
+        "goal": "No one should lose their home over a short-term shortfall in rent, or be shut out of the next one by a court record.",
+        "steps": [
+          {
+            "who": "Cities and counties",
+            "text": "require mediation and back-rent help before a landlord can file for nonpayment, backed by a standing fund for small arrears so the program doesn't run dry.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/evictions/solutions/eviction-diversion-with-rent-help.md"
+          },
+          {
+            "who": "Cities and states",
+            "text": "guarantee low-income tenants a free lawyer in eviction court, starting with families with children and older renters, and fund it to reach the people who qualify.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/evictions/solutions/right-to-counsel-free-eviction-lawyer.md"
+          },
+          {
+            "who": "State legislatures and court systems",
+            "text": "seal eviction records at filing, and automatically seal cases that were dismissed, settled or won by the tenant.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/evictions/solutions/seal-eviction-records-fix-screening.md"
+          },
+          {
+            "who": "Landlords and property managers",
+            "text": "offer a payment plan and a referral to rent help before any filing, and stop rejecting applicants for cases that were dismissed or won.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/evictions/solutions/eviction-diversion-with-rent-help.md"
+          },
+          {
+            "who": "Local governments, philanthropy and banks",
+            "text": "pilot a stay-put fund that gets first notice when a small rental is sold, and trade property-tax relief for capped rent increases.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/evictions/solutions/stay-put-fund-for-small-rentals.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "financial-literacy",
       "title": "Financial literacy",
       "questions": [
         "Free, trustworthy resources for budgeting, debt, credit and investing basics.",
-        "What has evidence of actually changing outcomes (not just awareness)?",
-        "How do we reach people who are struggling, rather than people already doing fine?"
-      ]
+        "What has evidence of actually changing outcomes (not just awareness)? Courses and coaching have some; what about workplace programs and auto-enrollment?",
+        "How do we reach people who are struggling, rather than people already doing fine?",
+        "What does coaching or counseling cost per person, and who should pay?"
+      ],
+      "issue": "Most adults were never taught how credit, debt and investing work: U.S. adults answered 47% of personal finance questions correctly in 2026, and the score has never topped 52%. Schools have only recently started to require the subject, and some requirements never reach students, so many people learn about money by making costly mistakes. The gap shows up in cash cushions: 26% of adults without a high school degree could cover a $400 emergency with cash, against 81% of those with a bachelor's degree. The strain also reaches the middle, where households earning $25,000 to $75,000 face many of the same problems as lower-income ones.",
+      "plan": {
+        "goal": "Everyone should learn how money works before it costs them, and get trustworthy one-on-one help when it already has.",
+        "steps": [
+          {
+            "who": "States and school systems",
+            "text": "require a stand-alone personal finance course with trained teachers and a set curriculum, not a topic folded into other classes.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/financial-literacy/solutions/required-stand-alone-personal-finance-course.md"
+          },
+          {
+            "who": "Employers",
+            "text": "offer free one-on-one financial coaching to hourly and lower-wage staff, with a first session booked during work time.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/financial-literacy/solutions/one-on-one-financial-coaching.md"
+          },
+          {
+            "who": "Banks and credit unions",
+            "text": "book a nonprofit counselor appointment for customers at the moment of a missed payment or denied loan.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/financial-literacy/solutions/money-help-at-the-moment-of-need.md"
+          },
+          {
+            "who": "Philanthropy",
+            "text": "fund nonprofit credit counseling and coaching so people can be seen quickly, and pay for independent evaluation.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/financial-literacy/solutions/free-nonprofit-credit-counseling.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "gas-prices",
@@ -26,8 +86,37 @@
       "questions": [
         "What actually sets the price at the pump, and which parts can policy or individuals affect?",
         "Ways to cut fuel spending for commuters and rural households.",
-        "Home energy cost programs and upgrades that pay for themselves."
-      ]
+        "Home energy cost programs and upgrades that pay for themselves.",
+        "How much do rural households spend on fuel compared with city households, by income?",
+        "Which states' percentage-of-income utility plans cost the least per household helped?"
+      ],
+      "issue": "Gasoline costs have jumped: pump prices in September 2026 were about a third higher than a year earlier, and home heating oil rose even faster. More than half of what a gallon costs is crude oil, whose price is set on a world market, so it swings with supply problems at oil fields, refineries and pipelines that no household can control. Most workers still drive alone to work, so a price spike lands straight on the commute. Low-income households are hit hardest: they spend about three times as large a share of their income on home energy as other households, and close to a fifth of their income once car fuel is added.",
+      "plan": {
+        "goal": "No household should have to spend more than a set, affordable share of its income to heat its home and get to work.",
+        "steps": [
+          {
+            "who": "States and utility regulators",
+            "text": "should cap low-income customers' energy bills at a share of income, with arrears forgiven over time for on-time payments, as Ohio and Illinois do.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/gas-prices/solutions/percentage-of-income-utility-bills.md"
+          },
+          {
+            "who": "Congress and state energy offices",
+            "text": "should fund weatherization to clear waiting lists, since it cuts bills for good and its savings exceed its cost.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/gas-prices/solutions/weatherization-assistance-program.md"
+          },
+          {
+            "who": "Congress, states and utilities",
+            "text": "should keep emergency bill help steady and paid out on time, and make it easy to find through one phone line or website.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/gas-prices/solutions/apply-for-energy-bill-help-this-week.md"
+          },
+          {
+            "who": "Employers",
+            "text": "should cut the commute itself with remote or four-day schedules where the job allows, vanpools and pre-tax transit benefits.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/gas-prices/solutions/employer-commute-cost-cuts.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "government-fraud",
@@ -36,7 +125,34 @@
         "Where do official audits (GAO, inspectors general) say improper payments are concentrated?",
         "Which anti-fraud measures have documented results?",
         "How can ordinary people report fraud effectively, and track what happens to the report?"
-      ]
+      ],
+      "issue": "Federal agencies reported about $186 billion in improper payments in fiscal year 2025, and GAO separately estimates that fraud costs the federal government $233 billion to $521 billion a year. Money leaks out when agencies pay without checking identity or eligibility first, rely on people's own word (self-certification), or can't match their records against other agencies' data. Most improper payments are overpayments, and the cause is often honest error, so cutting them means better checks, not just more punishment. Taxpayers lose the money, and so do the people a program is meant to serve, when payments go to the wrong place or when clumsy checks delay payments to eligible people.",
+      "plan": {
+        "goal": "Verify who gets a payment before the money goes out, and measure fraud and error honestly, so more of every public dollar reaches the people a program is meant to serve.",
+        "steps": [
+          {
+            "who": "Congress and agencies",
+            "text": "run every payment and award through Treasury's free Do Not Pay checks, and fund the data-sharing and bank-account checks that are still \"coming soon.\"",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/government-fraud/solutions/do-not-pay-check-before-paying.md"
+          },
+          {
+            "who": "Agencies and OMB",
+            "text": "assess fraud risk program by program using GAO's framework, putting prevention first, and collect the data GAO says is missing to measure fraud.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/government-fraud/solutions/gao-fraud-risk-framework.md"
+          },
+          {
+            "who": "Congress, SSA and Treasury",
+            "text": "make a shared identity check (valid Social Security number, matching name and birth date, not deceased) standard before any large emergency program pays, with a fast appeal for real applicants, and keep the pandemic analytics center running.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/government-fraud/solutions/verify-identity-before-emergency-payments.md"
+          },
+          {
+            "who": "Inspectors general and GAO",
+            "text": "keep one easy front door for tips, tell reporters when a tip was referred, and protect whistleblowers.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/government-fraud/solutions/report-suspected-fraud-to-the-right-watchdog.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "grocery-prices",
@@ -45,7 +161,39 @@
         "Practical ways households cut grocery spending without eating worse.",
         "Existing benefits and programs people qualify for but don't claim.",
         "Community-level options: co-ops, bulk buying, local producers, food banks."
-      ]
+      ],
+      "issue": "Food prices are still rising, though more slowly than overall prices: in the 12 months to September 2026 food at home rose 1.8% and all items 3.7%. Even so, in 2024 about 1 in 7 U.S. households (13.7%) was food insecure, and 18.4% of households with children were. Many households fall between programs: nearly half of food-insecure people have incomes too high for SNAP, and new SNAP work rules in 2026 came as enrollment fell by about 5 million. Families with children are hit hardest, and more than three-quarters of households that reported not having enough to eat said they could not afford more food.",
+      "plan": {
+        "goal": "Every family can afford enough food, and the help that exists reaches the people it was built for.",
+        "steps": [
+          {
+            "who": "States",
+            "text": "run online screening, reminders and phone interviews so eligible households keep SNAP, and explain which activities count toward the work rule.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/grocery-prices/solutions/check-snap-eligibility-and-apply.md"
+          },
+          {
+            "who": "School districts and states",
+            "text": "offer free breakfast and lunch to every student through the Community Eligibility Provision, with state funds to cover any gap.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/grocery-prices/solutions/free-school-meals-for-all-students.md"
+          },
+          {
+            "who": "Grocers and states",
+            "text": "match SNAP dollars spent on fruits and vegetables, funded by state programs and store partners.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/grocery-prices/solutions/double-up-food-bucks-produce-match.md"
+          },
+          {
+            "who": "Counties, states and philanthropy",
+            "text": "pilot a phased monthly grocery credit for households just above the SNAP line, and measure the results.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/grocery-prices/solutions/bridge-grocery-benefit-above-snap-line.md"
+          },
+          {
+            "who": "Employers and health systems",
+            "text": "fund application help at clinics and workplaces, and give paid time to apply.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/grocery-prices/solutions/check-snap-eligibility-and-apply.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "health-care-costs",
@@ -55,7 +203,39 @@
         "Which programs that lower drug and medical bills are under-used because people don't know they exist?",
         "How can people negotiate or get help with medical debt they already have?",
         "What keeps coverage from disappearing when someone loses their job?"
-      ]
+      ],
+      "issue": "Job-based insurance covers more than half of people, so losing a job often means losing coverage, and keeping the old plan through COBRA can cost the full premium plus a fee. Marketplace premium payments rose sharply in 2026 after the extra tax credits ended, Medicaid work requirements for expansion adults start in 2027, and federal funding for community health centers expires in December 2026. When people can't pay, they skip care and medicine: 28% of adults postponed needed care because of cost, and many didn't fill prescriptions or skipped doses. Uninsured adults are hit hardest; 62% of those under 65 went without care they needed.",
+      "plan": {
+        "goal": "No one should go without care or medicine because a layoff or a price tag put it out of reach.",
+        "steps": [
+          {
+            "who": "Congress and states",
+            "text": "Congress funds community health centers for several years at a time, and states add adult dental care to Medicaid.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/health-care-costs/solutions/community-health-centers-and-dental-schools.md"
+          },
+          {
+            "who": "States",
+            "text": "send Marketplace and Medicaid information with every unemployment claim and layoff notice, and let people apply for coverage on the same site.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/health-care-costs/solutions/after-a-layoff-get-covered-in-60-days.md"
+          },
+          {
+            "who": "Employers",
+            "text": "when laying people off, pay three months of coverage (COBRA, or the same amount toward a Marketplace plan) and book each worker with a free enrollment helper before the last day; philanthropy can fund a pooled bridge for small businesses.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/health-care-costs/solutions/layoff-health-bridge.md"
+          },
+          {
+            "who": "Drug makers, Congress and states",
+            "text": "drug makers extend $35 insulin programs past their end dates, and lawmakers extend the $35 monthly insulin cap to private insurance and uninsured people.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/health-care-costs/solutions/cash-drug-prices-and-insulin-programs.md"
+          },
+          {
+            "who": "Hospitals",
+            "text": "send uninsured emergency patients to a nearby health center with a follow-up already booked, and check the cash price of every discharge prescription.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/health-care-costs/solutions/community-health-centers-and-dental-schools.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "housing-affordability",
@@ -63,8 +243,42 @@
       "questions": [
         "What can renters and first-time buyers do this year to lower their housing costs?",
         "Which local policies (zoning, permitting, building types) have measurably increased supply and lowered rents, and where?",
-        "Which existing assistance programs are under-used because people don't know they exist?"
-      ]
+        "Which existing assistance programs are under-used because people don't know they exist?",
+        "How much do pre-approved plans and permit deadlines actually cut the time and cost of building a",
+        "What helps the lowest-income renters, for whom new market-rate homes stay out of reach?"
+      ],
+      "issue": "Housing costs have outrun pay: a typical home now costs about 4.7 times the typical household's income, against 3.2 in the 1990s, and the average renter earns about $10 an hour less than it takes to afford a modest two-bedroom apartment. The country is short an estimated 1.2 to 5.5 million homes, the cheapest rentals are disappearing, and building costs have risen 40% since 2020, so new homes come in priced above what most people can pay. First-time buyers have fallen to a record-low share of the market, and half of all renters spend 30% or more of their income on housing. Renters with the lowest incomes are hit hardest: 83% of those earning under $30,000 are cost-burdened.",
+      "plan": {
+        "goal": "Make it legal, fast and affordable to build modest homes everywhere, and get the help that already exists into the hands of renters and first-time buyers.",
+        "steps": [
+          {
+            "who": "Cities and counties",
+            "text": "should allow apartments near transit and jobs, smaller lots and town houses, and end parking mandates, as Minneapolis and Houston did.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/housing-affordability/solutions/allow-more-homes-zoning-reform.md"
+          },
+          {
+            "who": "States",
+            "text": "should require every city to approve backyard homes that meet clear rules, and state housing finance agencies should lend owners the money to build them.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/housing-affordability/solutions/legalize-and-finance-backyard-homes-adus.md"
+          },
+          {
+            "who": "Cities and states",
+            "text": "should guarantee permits for small projects: pre-approved designs, a 30-day review clock, and fee refunds when it's missed.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/housing-affordability/solutions/small-home-permit-guarantee.md"
+          },
+          {
+            "who": "Employers, lenders and philanthropy",
+            "text": "should fund down-payment help and housing counselors, and make sure every first-time applicant hears about local programs.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/housing-affordability/solutions/find-down-payment-help-and-housing-counselor.md"
+          },
+          {
+            "who": "Builders and community lenders",
+            "text": "should build and finance the town houses, small apartments and backyard homes the new rules allow.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/housing-affordability/solutions/allow-more-homes-zoning-reform.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "jobs-and-layoffs",
@@ -74,7 +288,39 @@
         "How do people living paycheck to paycheck build even a small cushion?",
         "Which retraining options have a track record of leading to real jobs, especially as AI changes work?",
         "What can workers do when their hours get cut?"
-      ]
+      ],
+      "issue": "Many jobs pay far below what it costs to live, and millions of people work part time because their hours were cut or they couldn't find full-time work. Layoffs happen every month, often because a position or shift was abolished, and the median job search runs close to three months. Workers who lose a long-held job often come back at lower pay: only about half of those back in full-time work earn as much as before. AI may reach a large share of jobs, and entry-level workers in the most exposed fields are already seeing fewer openings. The help that exists has deadlines and waiting periods, so people lose money just by not knowing about it in time.",
+      "plan": {
+        "goal": "Losing a job or hours should lead to a bridge back to comparable work, not a slide into lower pay.",
+        "steps": [
+          {
+            "who": "Employers and states",
+            "text": "employers facing a temporary slowdown file a state work-sharing plan before laying anyone off, and states without a program pass one.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/jobs-and-layoffs/solutions/work-sharing-instead-of-layoffs.md"
+          },
+          {
+            "who": "States",
+            "text": "let laid-off workers file for unemployment and health coverage in one step, send a first-week checklist with every layoff notice, and cut the wait for the first payment.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/jobs-and-layoffs/solutions/first-week-after-a-layoff.md"
+          },
+          {
+            "who": "State and local workforce boards",
+            "text": "steer federal training money (WIOA) toward sector-focused programs with randomized evidence, and pay for the child care, transport and stipends that keep people enrolled.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/jobs-and-layoffs/solutions/sectoral-job-training.md"
+          },
+          {
+            "who": "Employers doing layoffs",
+            "text": "pay severance that covers the wait for benefits, bring the state Rapid Response team on site before the last day, and fund training for the people they let go.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/jobs-and-layoffs/solutions/first-week-after-a-layoff.md"
+          },
+          {
+            "who": "Congress, with the companies gaining most from AI",
+            "text": "create wage insurance that tops up pay for long-tenure workers who take a lower-paying job, starting with a funded pilot.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/jobs-and-layoffs/solutions/ai-transition-pay.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "medical-debt",
@@ -85,7 +331,39 @@
         "Do the pending lawsuits against state credit-reporting bans (Colorado, Minnesota) change what states",
         "What helps people with debt from ambulances, physician groups and dental offices, which most hospital",
         "What would actually improve health and stability for people with medical debt, given that relief"
-      ]
+      ],
+      "issue": "Medical debt builds when people get care they need and then get bills they can't pay, whether they were uninsured for part of the year or insured with costs their plan didn't cover. Many people with hospital debt qualify for free or discounted care that nonprofit hospitals must offer, but the system waits for patients to find out and apply, and in one survey only 29% of people with unaffordable hospital bills managed to get it. Unpaid bills move to collectors and can land on credit reports, and people cut back on food and basics or drain their savings to pay. It hits hardest among people who are already sick or disabled, and among Black adults. Buying and cancelling old debt is cheap, but on its own it showed no measurable health or financial-wellness gains in the one large randomized study, so new debt has to be stopped from forming.",
+      "plan": {
+        "goal": "No one should go into debt for care they already qualified to get free or discounted.",
+        "steps": [
+          {
+            "who": "State legislatures",
+            "text": "require hospitals and other providers to screen every patient for financial assistance before the first bill, and to report each year how many were screened, approved and sent to collections.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/medical-debt/solutions/screen-every-patient-before-the-first-bill.md"
+          },
+          {
+            "who": "Hospitals and health systems",
+            "text": "print the assistance eligibility table on the front of every bill, staff a financial counselor at discharge, and pause collections while an application is pending.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/medical-debt/solutions/apply-for-hospital-financial-assistance.md"
+          },
+          {
+            "who": "States",
+            "text": "follow Colorado by requiring an itemized bill before collection, pausing collection during an insurance appeal, and capping interest on medical debt at 3% a year.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/medical-debt/solutions/check-dispute-and-negotiate-the-bill.md"
+          },
+          {
+            "who": "States, counties and philanthropy",
+            "text": "fund rounds that buy and cancel residents' existing medical debt through a relief nonprofit, paired with the prevention steps above.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/medical-debt/solutions/government-funded-medical-debt-buy-and-forgive.md"
+          },
+          {
+            "who": "Federal government (IRS)",
+            "text": "audit more nonprofit hospitals' notice and screening practices under section 501(r) and publish the results.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/medical-debt/solutions/apply-for-hospital-financial-assistance.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "no-financial-cushion",
@@ -96,7 +374,39 @@
         "What happens to people's finances after hours are cut, and what helps them bridge it?",
         "How can someone laid off keep their 401(k) intact while still paying rent: which options, in what",
         "What would it cost to give every worker a first $1,000 cushion, and who would fund it?"
-      ]
+      ],
+      "issue": "About 1 in 3 adults can't cover a $400 surprise with cash, and for 4 in 10 adults earning under $50,000, even $100 is out of reach from savings. Big unexpected costs like car repairs, home repairs and medical bills hit most adults in a given year, so without a cushion one of them turns into missed bills, late rent or high-cost debt. When pay is delayed, hours are cut or a job ends, more people now turn to retirement savings, where income tax, a possible 10% additional tax and 20% withholding up front make it an expensive emergency fund. Young adults and renters show the strain most: nearly half of adults 18 to 29 needed outside help with an expense, and nearly a quarter of renters fell behind on rent in the past year.",
+      "plan": {
+        "goal": "Every working household should have a small cushion to fall back on, and fast help when that isn't enough, before a bill becomes a debt or an eviction.",
+        "steps": [
+          {
+            "who": "Cities, counties and states",
+            "text": "fund year-round emergency assistance pools that pay landlords and utilities within days, with phone or text applications, and have courts refer tenants at every eviction filing.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/no-financial-cushion/solutions/fast-one-time-emergency-cash.md"
+          },
+          {
+            "who": "Employers",
+            "text": "offer emergency savings accounts with auto-enrollment, a seed deposit, a match and fee-free withdrawals.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/no-financial-cushion/solutions/employer-emergency-savings-accounts.md"
+          },
+          {
+            "who": "Employers and retirement plan providers",
+            "text": "switch on the $1,000 emergency withdrawal and show the real after-tax cost of a full cash-out before anyone takes one.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/no-financial-cushion/solutions/before-you-cash-out-a-401k.md"
+          },
+          {
+            "who": "Philanthropy and regional employers",
+            "text": "pilot a \"first $1,000\" fund that seeds low-income workers' own savings accounts and matches refills, with an independent evaluation.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/no-financial-cushion/solutions/first-1000-cushion-fund.md"
+          },
+          {
+            "who": "Congress",
+            "text": "let employer matches go straight into workplace emergency savings accounts and give small businesses a tax credit for seeding them.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/no-financial-cushion/solutions/employer-emergency-savings-accounts.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "predatory-finance",
@@ -107,7 +417,34 @@
         "Which employer programs (small-dollar loans repaid through payroll, earned wage access) save workers",
         "What works to stop aggressive debt collection on debts people don't owe, or can't verify?",
         "What would help someone already caught in betting or an investment-fraud pitch, before the money is"
-      ]
+      ],
+      "issue": "When cash runs out before the bills do, the quickest money within reach is often the most expensive: payday and title loans, overdraft fees and stacked buy-now-pay-later plans. Payday loans are mostly used for rent, utilities and food, and their two-week terms push people to roll them over or borrow again, so the average borrower takes eight loans a year and pays about $520 in interest. Overdraft fees land again and again on a small group of accounts, while online sports betting and investment fraud drain more. Federal protections on overdraft and payday payments are uncertain, so the rules depend largely on each state. Adults with the lowest incomes use high-cost loans about twice as often as adults overall.",
+      "plan": {
+        "goal": "Someone short on cash should be able to get a fair small loan and a bank account that doesn't charge them for being short.",
+        "steps": [
+          {
+            "who": "State legislatures",
+            "text": "pass small-loan rules like Ohio's 2018 law, with an all-in cost cap, at least three months to repay in installments, licensing for online lenders and published loan data.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/predatory-finance/solutions/state-small-loan-reform-ohio-model.md"
+          },
+          {
+            "who": "Banks and credit unions",
+            "text": "offer Bank On certified accounts with no overdraft or NSF fees, and cities and states can pay benefits and tax refunds into them by default when people don't name another account.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/predatory-finance/solutions/bank-on-certified-no-overdraft-account.md"
+          },
+          {
+            "who": "Credit unions, with employers and philanthropy",
+            "text": "offer payday alternative loans (up to $2,000, at most 28% interest) with fast approval, backed by funded loan-loss reserves and repayment through payroll.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/predatory-finance/solutions/credit-union-payday-alternative-loans.md"
+          },
+          {
+            "who": "Banks, credit unions and card issuers",
+            "text": "add a one-tap gambling block with a 48-hour wait to turn it off, and measure whether it reduces overdrafts and losses.",
+            "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/predatory-finance/solutions/bank-gambling-block-with-cooling-off.md"
+          }
+        ],
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+      }
     },
     {
       "slug": "other",

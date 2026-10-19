@@ -19,9 +19,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@600;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=10">
+  <link rel="stylesheet" href="styles.css?v=11">
   <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
-  <script src="app.js?v=10" defer></script>
+  <script src="app.js?v=11" defer></script>
 </head>
 <body>
   <a class="skip" href="#issues">Skip to the issues</a>
@@ -158,13 +158,25 @@
         </div>
         <button class="btn ghost small add-idea" type="button">Suggest a fix</button>
       </header>
+      <div class="top-layer">
+        <section class="p-issue-card">
+          <p class="layer-kicker">The issue</p>
+          <p class="p-issue"></p>
+        </section>
+        <section class="p-plan">
+          <p class="layer-kicker">The solution · for leaders and systems</p>
+          <p class="plan-goal"></p>
+          <ol class="plan-steps"></ol>
+          <p class="plan-note"></p>
+        </section>
+      </div>
       <div class="p-cols">
         <div class="col">
           <h3><span class="dot"></span>What people are saying</h3>
           <ul class="voices"></ul>
         </div>
         <div class="col">
-          <h3><span class="dot lit"></span>Solutions people support</h3>
+          <h3><span class="dot lit"></span>Direct solutions and tips</h3>
           <form class="compose idea-form" hidden>
             <label>Your fix, in a few words
               <input name="title" maxlength="120" required placeholder="e.g. Let towns approve starter homes faster">
@@ -185,7 +197,7 @@
         </div>
         <textarea name="text" rows="1" maxlength="600" required placeholder="What's on your mind? No names, please." aria-label="What are you struggling with?"></textarea>
         <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-        <button class="btn accent" type="submit">Post</button>
+        <button class="btn accent" type="submit" aria-label="Post your struggle">Post</button>
         <p class="crisis">Hurting right now? In the U.S., call or text <a href="tel:988">988</a> any time.</p>
       </form>
     </section>

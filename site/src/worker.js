@@ -13,7 +13,7 @@ const MAX_POSTS_PER_IP_PER_DAY = 20; // voices + ideas
 const MAX_POSTS_PER_DAY = 5000;
 const MAX_BACKS_PER_IP_PER_DAY = 300;
 const MAX_AI_CHECKS_PER_VOTER_PER_DAY = 10; // each new post costs one Workers AI call, passed or not
-const MAX_AI_CHECKS_PER_IP_PER_DAY = 40;
+const MAX_AI_CHECKS_PER_IP_PER_DAY = MAX_POSTS_PER_IP_PER_DAY; // the network's posting budget, reserved atomically
 const MAX_BODY_BYTES = 8 * 1024;
 const MAX_ADMIN_BODY_BYTES = 256 * 1024;
 const MAX_FEEDBACK_PER_IP_PER_DAY = 10;
@@ -85,7 +85,9 @@ async function board(req, env, ctx) {
   ]);
 
   const out = {};
-  for (const p of problems) out[p.slug] = { slug: p.slug, title: p.title, people: 0, voiceCount: 0, voices: [], ideas: [] };
+  for (const p of problems) {
+    out[p.slug] = { slug: p.slug, title: p.title, issue: p.issue || '', plan: p.plan || {}, people: 0, voiceCount: 0, voices: [], ideas: [] };
+  }
   for (const r of people.results) if (out[r.problem]) out[r.problem].people = r.n;
   const byWeight = (a, b) => b.n - a.n || b.created_at - a.created_at;
   for (const v of voices.results.sort(byWeight)) {
@@ -159,17 +161,17 @@ async function post(req, env, kind) {
     return json({ error: "We're getting a lot right now. Please try again tomorrow." }, 429, who.headers);
   }
 
-  // Rejected posts aren't saved, so AI checks get their own daily caps: spamming junk can't burn the AI allowance.
-  const used = await env.DB.prepare(
-    'SELECT SUM(who = ?1) AS mine, SUM(who = ?2) AS net FROM ai_checks WHERE who IN (?1, ?2) AND created_at >= ?3'
-  ).bind(who.voterHash, who.ipHash, since).first();
-  if ((used.mine || 0) >= MAX_AI_CHECKS_PER_VOTER_PER_DAY || (used.net || 0) >= MAX_AI_CHECKS_PER_IP_PER_DAY) {
+  // Every new post reserves one slot from the browser's and the network's daily budget before the AI screen runs,
+  // passed or not, so junk can't burn the AI allowance. Check and reservation are ONE statement: requests sent at
+  // the same instant can't all see room under the cap.
+  const room = `(SELECT COUNT(*) FROM ai_checks WHERE who = ?1 AND created_at >= ?3) < ?4
+    AND (SELECT COUNT(*) FROM ai_checks WHERE who = ?2 AND created_at >= ?3) < ?5`;
+  const reserved = await env.DB.prepare(
+    `INSERT INTO ai_checks (who, created_at) SELECT ?1, ?6 WHERE ${room} UNION ALL SELECT ?2, ?6 WHERE ${room}`
+  ).bind(who.voterHash, who.ipHash, since, MAX_AI_CHECKS_PER_VOTER_PER_DAY, MAX_AI_CHECKS_PER_IP_PER_DAY, Date.now()).run();
+  if (!reserved.meta.changes) {
     return json({ error: "That's the limit for new posts today. You can still back what others posted." }, 429, who.headers);
   }
-  await env.DB.batch([
-    env.DB.prepare('INSERT INTO ai_checks (who, created_at) VALUES (?1, ?2)').bind(who.voterHash, Date.now()),
-    env.DB.prepare('INSERT INTO ai_checks (who, created_at) VALUES (?1, ?2)').bind(who.ipHash, Date.now()),
-  ]);
   const verdict = await aiScreen(env, kind, problem, title, text);
   if (verdict.ok === false) return json({ error: verdict.why || "That didn't pass our check.", rejected: true }, 422, who.headers);
   if (verdict.problem && SLUGS.has(verdict.problem) && problem === 'other') problem = verdict.problem;
@@ -564,8 +566,22 @@ async function turnstileOk(env, token, ip) {
 async function readJson(req, maxBytes) {
   if (Number(req.headers.get('Content-Length') || 0) > maxBytes) return null;
   try {
-    const text = await req.text();
-    if (text.length > maxBytes) return null;
+    // Count real bytes as they arrive (chunked bodies have no Content-Length; string length isn't bytes).
+    const reader = req.body?.getReader();
+    if (!reader) return null;
+    const chunks = [];
+    let size = 0;
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > maxBytes) { await reader.cancel(); return null; }
+      chunks.push(value);
+    }
+    const bytes = new Uint8Array(size);
+    let at = 0;
+    for (const c of chunks) { bytes.set(c, at); at += c.byteLength; }
+    const text = new TextDecoder().decode(bytes);
     const b = JSON.parse(text);
     return b && typeof b === 'object' && !Array.isArray(b) ? b : null;
   } catch {

@@ -6,7 +6,23 @@ let widgetId = null;
 let busy = false;
 const expanded = new Set(); // problems whose full voice list is open
 const VOICES_SHOWN = 6;
-let active = decodeURIComponent(location.hash.slice(1)) || '';
+let active = hashSlug();
+const openWho = new Set(); // fixes whose "who can act" is expanded, kept across refreshes
+const motion = () => (matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth');
+
+// The issue in the URL hash; a malformed hash just means "no choice".
+function hashSlug() {
+  try {
+    return decodeURIComponent(location.hash.slice(1));
+  } catch {
+    return '';
+  }
+}
+
+// How much of the top of the window the sticky header and issue row cover.
+function stickyOffset() {
+  return ($('.nav')?.offsetHeight || 0) + ($('.explore')?.offsetHeight || 0) + 12;
+}
 
 // One simple line icon per issue (24x24, stroked).
 const ICONS = {
@@ -57,11 +73,11 @@ async function init() {
     const box = document.querySelector('.problem:not([hidden]) .voice-form textarea');
     if (!box) return;
     e.preventDefault();
-    box.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    box.scrollIntoView({ block: 'center', behavior: motion() });
     box.focus({ preventScroll: true });
   });
   window.addEventListener('hashchange', () => {
-    const slug = decodeURIComponent(location.hash.slice(1));
+    const slug = hashSlug();
     if (document.getElementById(slug)?.classList.contains('problem')) show(slug);
   });
 }
@@ -75,6 +91,14 @@ function show(slug, focusTab = false) {
     t.setAttribute('aria-selected', on);
     t.tabIndex = on ? 0 : -1;
     if (on && focusTab) t.focus();
+    // Keep the selected tab visible inside the scrolling tab row (without moving the page).
+    if (on) {
+      const row = t.parentElement;
+      const left = t.offsetLeft - row.offsetLeft;
+      if (left < row.scrollLeft || left + t.offsetWidth > row.scrollLeft + row.clientWidth) {
+        row.scrollTo({ left: Math.max(0, left - 16), behavior: motion() });
+      }
+    }
   }
 }
 
@@ -82,7 +106,8 @@ function show(slug, focusTab = false) {
 // so focus, caret and drafts stay put.
 async function refresh(force = false) {
   const el = document.activeElement;
-  const typing = el && el.closest && el.closest('#board') && /INPUT|TEXTAREA/.test(el.tagName);
+  // Never redraw under someone: not while focus is anywhere in the board, typing or not.
+  const typing = el && el !== document.body && el.closest && el.closest('#board');
   const drafting = [...document.querySelectorAll('#board .compose input:not(.hp), #board .compose textarea')].some((f) => f.value.trim());
   if (!force && (typing || drafting || document.querySelector('#board .idea-form:not([hidden])'))) return;
   try {
@@ -118,6 +143,38 @@ function render({ problems, totals }) {
     if (p.voiceCount) parts.push(`${fmt(p.voiceCount)} ${p.voiceCount === 1 ? 'voice' : 'voices'}`);
     if (p.people) parts.push(`${fmt(p.people)} ${p.people === 1 ? 'person' : 'people'} here on the site`);
     $('.p-count', el).textContent = parts.join(' · ') || 'Be the first to speak up here';
+
+    // Top layer: what the issue is, and the plan for leaders and systems.
+    if (p.issue) $('.p-issue', el).textContent = p.issue;
+    else $('.p-issue-card', el).remove();
+    const plan = p.plan || {};
+    if (plan.goal || (plan.steps || []).length) {
+      $('.plan-goal', el).textContent = plan.goal || '';
+      const ol = $('.plan-steps', el);
+      for (const st of plan.steps || []) {
+        const item = document.createElement('li');
+        if (st.who) {
+          const who = document.createElement('b');
+          who.textContent = st.who;
+          item.append(who, ' ');
+        }
+        item.append(st.text);
+        if (st.evidence) {
+          const a = document.createElement('a');
+          a.href = st.evidence;
+          a.target = '_blank';
+          a.rel = 'noopener';
+          a.className = 'evidence';
+          a.textContent = 'Evidence';
+          a.setAttribute('aria-label', `Evidence for: ${st.who || 'this step'}`);
+          item.append(' ', a);
+        }
+        ol.append(item);
+      }
+      $('.plan-note', el).textContent = plan.note || '';
+    } else {
+      $('.p-plan', el).remove();
+    }
 
     const voices = $('.voices', el);
     if (!p.voices.length) voices.append(li('empty', 'Nothing yet. What are you struggling with?'));
@@ -175,8 +232,8 @@ function render({ problems, totals }) {
     t.addEventListener('click', () => {
       show(p.slug);
       history.replaceState(null, '', `#${p.slug}`);
-      const top = $('#board').getBoundingClientRect().top + window.scrollY - 170;
-      if (window.scrollY > top) window.scrollTo({ top, behavior: 'smooth' });
+      const top = $('#board').getBoundingClientRect().top + window.scrollY - stickyOffset();
+      if (window.scrollY > top) window.scrollTo({ top, behavior: motion() });
     });
     // Arrow keys move between tabs (the standard tab pattern).
     t.addEventListener('keydown', (e) => {
@@ -239,12 +296,16 @@ function ideaItem(i, p) {
     el.append(dl);
     // Long "who can act" text shows its first lines; the rest is one tap away.
     const more = document.createElement('button');
+    const wasOpen = openWho.has(i.id);
+    if (wasOpen) dl.classList.add('open');
     more.type = 'button';
     more.className = 'who-toggle';
-    more.textContent = 'Read all of who can act';
-    more.setAttribute('aria-expanded', 'false');
+    more.textContent = wasOpen ? 'Show less' : 'Read all of who can act';
+    more.setAttribute('aria-expanded', wasOpen);
+    more.setAttribute('aria-label', `Who can act on: ${i.title}`);
     more.addEventListener('click', () => {
       const open = dl.classList.toggle('open');
+      open ? openWho.add(i.id) : openWho.delete(i.id);
       more.setAttribute('aria-expanded', open);
       more.textContent = open ? 'Show less' : 'Read all of who can act';
     });
@@ -277,8 +338,8 @@ function ideaItem(i, p) {
 }
 
 function shareUrl(i, p) {
-  const who = i.n === 1 ? '1 person believes' : `${fmt(i.n)} people believe`;
-  const text = `${who} this should happen on ${p.title.toLowerCase()}: "${i.title}"\n\nWhat's hurting, and what should happen. Add your voice:`;
+  const lead = i.n === 0 ? 'A fix worth backing' : i.n === 1 ? '1 person believes this should happen' : `${fmt(i.n)} people believe this should happen`;
+  const text = `${lead} on ${p.title.toLowerCase()}: "${i.title}"\n\nReal people, real solutions. Add your voice:`;
   return `https://x.com/intent/post?text=${encodeURIComponent(text)}&url=${encodeURIComponent(`${SITE}#${p.slug}`)}`;
 }
 
