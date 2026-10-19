@@ -1,0 +1,54 @@
+{
+  "problems": [
+    {
+      "slug": "financial-literacy",
+      "title": "Financial literacy",
+      "questions": [
+        "Free, trustworthy resources for budgeting, debt, credit and investing basics.",
+        "What has evidence of actually changing outcomes (not just awareness)?",
+        "How do we reach people who are struggling, rather than people already doing fine?"
+      ]
+    },
+    {
+      "slug": "gas-prices",
+      "title": "Gas and energy prices",
+      "questions": [
+        "What actually sets the price at the pump, and which parts can policy or individuals affect?",
+        "Ways to cut fuel spending for commuters and rural households.",
+        "Home energy cost programs and upgrades that pay for themselves."
+      ]
+    },
+    {
+      "slug": "government-fraud",
+      "title": "Fraud and waste in government spending",
+      "questions": [
+        "Where do official audits (GAO, inspectors general) say improper payments are concentrated?",
+        "Which anti-fraud measures have documented results?",
+        "How can ordinary people report fraud effectively, and track what happens to the report?"
+      ]
+    },
+    {
+      "slug": "grocery-prices",
+      "title": "Grocery prices",
+      "questions": [
+        "Practical ways households cut grocery spending without eating worse.",
+        "Existing benefits and programs people qualify for but don't claim.",
+        "Community-level options: co-ops, bulk buying, local producers, food banks."
+      ]
+    },
+    {
+      "slug": "housing-affordability",
+      "title": "Housing affordability",
+      "questions": [
+        "What can renters and first-time buyers do this year to lower their housing costs?",
+        "Which local policies (zoning, permitting, building types) have measurably increased supply and lowered rents, and where?",
+        "Which existing assistance programs are under-used because people don't know they exist?"
+      ]
+    },
+    {
+      "slug": "other",
+      "title": "Something else",
+      "questions": []
+    }
+  ]
+}
