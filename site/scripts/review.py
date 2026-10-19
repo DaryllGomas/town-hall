@@ -28,7 +28,7 @@ if not args or args[0] == "pending":
             print(kind[:-1], json.dumps(r, ensure_ascii=False))
 elif args[0] in ("approve", "reject") and len(args) == 3 and args[1] in ("voice", "idea") and args[2].isdigit():
     sql(f"UPDATE {args[1]}s SET approved = {1 if args[0] == 'approve' else -1} WHERE id = {int(args[2])}")
-    print(f"{args[0]}d {args[1]} {args[2]}")
+    print(f"{ {'approve': 'approved', 'reject': 'rejected'}[args[0]]} {args[1]} {args[2]}")
 elif args[0] == "export":
     count = "(SELECT COUNT(*) FROM backs b WHERE b.kind = '{k}' AND b.item_id = t.id) AS backers"
     print(json.dumps({

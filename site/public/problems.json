@@ -37,12 +37,32 @@
       ]
     },
     {
+      "slug": "health-care-costs",
+      "title": "Health care costs",
+      "questions": [
+        "What can someone without insurance do this month to get prescriptions, care and dental work they can afford?",
+        "Which programs that lower drug and medical bills are under-used because people don't know they exist?",
+        "How can people negotiate or get help with medical debt they already have?",
+        "What keeps coverage from disappearing when someone loses their job?"
+      ]
+    },
+    {
       "slug": "housing-affordability",
       "title": "Housing affordability",
       "questions": [
         "What can renters and first-time buyers do this year to lower their housing costs?",
         "Which local policies (zoning, permitting, building types) have measurably increased supply and lowered rents, and where?",
         "Which existing assistance programs are under-used because people don't know they exist?"
+      ]
+    },
+    {
+      "slug": "jobs-and-layoffs",
+      "title": "Jobs, layoffs and pay",
+      "questions": [
+        "What actually helps people who were laid off get back to comparable work faster?",
+        "How do people living paycheck to paycheck build even a small cushion?",
+        "Which retraining options have a track record of leading to real jobs, especially as AI changes work?",
+        "What can workers do when their hours get cut?"
       ]
     },
     {

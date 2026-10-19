@@ -7,7 +7,7 @@ body:
     id: problem
     attributes:
       label: Which problem?
-      options: [housing-affordability, grocery-prices, gas-prices, government-fraud, financial-literacy]
+      options: [housing-affordability, grocery-prices, gas-prices, health-care-costs, jobs-and-layoffs, government-fraud, financial-literacy]
     validations: { required: true }
   - type: dropdown
     id: type

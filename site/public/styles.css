@@ -92,6 +92,7 @@ button, input, textarea { font: inherit; color: inherit; }
 .compose label { display: flex; flex-direction: column; gap: 6px; font-size: 14px; font-weight: 600; }
 .compose input, .compose textarea { border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; background: #fff; font-weight: 400; resize: vertical; }
 .compose .row { display: flex; gap: 8px; }
+.crisis { margin: 0; font-size: 12.5px; color: var(--muted); }
 .hp { position: absolute; left: -9999px; width: 1px; height: 1px; }
 
 /* More */
