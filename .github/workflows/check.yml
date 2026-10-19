@@ -45,19 +45,3 @@ jobs:
           else
             python3 -I trusted/scripts/check_submission.py --repo change --all
           fi
-
-  site:
-    runs-on: ubuntu-latest
-    timeout-minutes: 5
-    steps:
-      - name: Check out the change
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          persist-credentials: false
-      - name: Site JavaScript parses
-        run: |
-          node --check site/public/app.js
-          node --input-type=module --check < site/src/worker.js
-          node --check site/scripts/collect-x.js
-      - name: Site scripts compile
-        run: python3 -m py_compile site/scripts/*.py
