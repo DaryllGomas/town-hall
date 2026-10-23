@@ -343,12 +343,12 @@
           },
           {
             "who": "Hospitals and health systems",
-            "text": "print the assistance eligibility table on the front of every bill, staff a financial counselor at discharge, and pause collections while an application is pending.",
+            "text": "print the assistance eligibility table on the front of every bill, staff a financial counselor at discharge, and pause collections while an application is pending, even an incomplete one (federal rules already require a pause once an application is complete).",
             "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/medical-debt/solutions/apply-for-hospital-financial-assistance.md"
           },
           {
             "who": "States",
-            "text": "follow Colorado by requiring an itemized bill before collection, pausing collection during an insurance appeal, and capping interest on medical debt at 3% a year.",
+            "text": "follow Colorado by letting patients demand an itemized bill before collection goes on, pausing collection during an insurance appeal, and capping interest on medical debt at 3% a year.",
             "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/medical-debt/solutions/check-dispute-and-negotiate-the-bill.md"
           },
           {
@@ -362,7 +362,7 @@
             "evidence": "https://github.com/DaryllGomas/town-hall/blob/main/problems/medical-debt/solutions/apply-for-hospital-financial-assistance.md"
           }
         ],
-        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request."
+        "note": "Drafted by AI from the researched fixes and people's own words on 2026-10-19; sources re-checked by a Swarm AI contributor and reviewed on 2026-10-21. Disagree? Say why on the site or in a pull request."
       }
     },
     {
