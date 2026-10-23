@@ -33,9 +33,10 @@ new debt has to be stopped from forming.
    assistance before the first bill, and to report each year how many were screened, approved and sent
    to collections. ([evidence](solutions/screen-every-patient-before-the-first-bill.md))
 2. **Hospitals and health systems:** print the assistance eligibility table on the front of every bill,
-   staff a financial counselor at discharge, and pause collections while an application is pending.
+   staff a financial counselor at discharge, and pause collections while an application is pending, even an
+   incomplete one (federal rules already require a pause once an application is complete).
    ([evidence](solutions/apply-for-hospital-financial-assistance.md))
-3. **States:** follow Colorado by requiring an itemized bill before collection, pausing collection
+3. **States:** follow Colorado by letting patients demand an itemized bill before collection goes on, pausing collection
    during an insurance appeal, and capping interest on medical debt at 3% a year.
    ([evidence](solutions/check-dispute-and-negotiate-the-bill.md))
 4. **States, counties and philanthropy:** fund rounds that buy and cancel residents' existing medical
@@ -45,7 +46,7 @@ new debt has to be stopped from forming.
    section 501(r) and publish the results.
    ([evidence](solutions/apply-for-hospital-financial-assistance.md))
 
-*Drafted by AI from the researched fixes and people's own words on 2026-10-19. Disagree? Say why on the site or in a pull request.*
+*Drafted by AI from the researched fixes and people's own words on 2026-10-19; sources re-checked by a Swarm AI contributor and reviewed on 2026-10-21. Disagree? Say why on the site or in a pull request.*
 
 ## In people's words
 
@@ -79,6 +80,12 @@ new debt has to be stopped from forming.
   receive charity care; 52% said their hospital gave them no information about it.
   https://www.kff.org/health-costs/issue-brief/hospital-charity-care-how-it-works-and-why-it-matters/
   https://clearhealthcosts.com/blog/2024/05/looking-for-hospital-financial-aid-good-luck-and-dont-hold-your-breath/
+- **The IRS barely checks.** A May 2025 report by the Treasury Inspector General for Tax Administration
+  found that IRS referrals of hospitals for community-benefit examinations fell 98% from fiscal 2022 to 2024,
+  that 142 hospitals that should have been reviewed weren't, and that the IRS has no complete list of the
+  hospitals it must review every three years. It recommended clearer rules, including baseline
+  eligibility criteria for financial assistance policies; the IRS agreed.
+  https://www.oversight.gov/sites/default/files/documents/reports/2025-05/2025100019fr.pdf
 - **Credit reports: no federal ban, partial voluntary limits, a patchwork of state laws (as of October
   2026).** Since 2022–2023 the three national credit bureaus (Equifax, Experian, TransUnion) voluntarily
   leave off paid medical collections, wait one year before reporting unpaid ones, and leave off medical
